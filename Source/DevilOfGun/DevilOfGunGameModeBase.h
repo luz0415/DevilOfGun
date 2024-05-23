@@ -14,4 +14,20 @@ class DEVILOFGUN_API ADevilOfGunGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+	ADevilOfGunGameModeBase();
+
+	virtual void StartPlay() override;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class APawn> aPlayer;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class APawn> bPlayer;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class APlayerController> aPlayerController;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class APlayerController> bPlayerController;
 };
