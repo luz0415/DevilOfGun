@@ -28,6 +28,8 @@ AaPlayer::AaPlayer()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+
+	JumpMaxHoldTime = 0.5f;
 }
 
 // Called when the game starts or when spawned
@@ -59,6 +61,7 @@ void AaPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("MoveRight", this, &AaPlayer::SetMoveHorizontal);
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AaPlayer::JumpStart);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AaPlayer::JumpStop);
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AaPlayer::SprintStart);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AaPlayer::SprintEnd);
 }
@@ -86,7 +89,10 @@ void AaPlayer::SprintEnd() {
 }
 
 void AaPlayer::JumpStart() {
-
+	bPressedJump = true;
+}
+void AaPlayer::JumpStop() {
+	bPressedJump = false;
 }
 
 void AaPlayer::AnimCtrl() {

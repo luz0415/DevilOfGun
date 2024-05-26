@@ -13,8 +13,7 @@ enum class EPlayerType : uint8 {
 	TE_OptionA UMETA(DisplayName = "Idle"),
 	TE_OptionB UMETA(DisplayName = "Move"),
 	TE_OptionC UMETA(DisplayName = "Sprint"),
-	TE_OptionD UMETA(DisplayName = "Jump"),
-	TE_OptionE UMETA(DisplayName = "Die"),
+	TE_OptionD UMETA(DisplayName = "Die"),
 };
 
 UCLASS()
@@ -67,6 +66,7 @@ private:
 
 	void SetMoveHorizontal(float value);
 	void JumpStart();
+	void JumpStop();
 	void AnimCtrl();
 	void SprintStart();
 	void SprintEnd();
