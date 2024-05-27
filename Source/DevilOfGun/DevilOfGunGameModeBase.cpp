@@ -2,7 +2,6 @@
 
 
 #include "DevilOfGunGameModeBase.h"
-#include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
 #include "aPlayerController.h"
@@ -11,8 +10,6 @@
 ADevilOfGunGameModeBase::ADevilOfGunGameModeBase()
 {
 	DefaultPawnClass = nullptr;
-
-
 }
 
 void ADevilOfGunGameModeBase::StartPlay()
@@ -30,7 +27,7 @@ void ADevilOfGunGameModeBase::StartPlay()
 	}
 
     APlayerController* B = UGameplayStatics::CreatePlayer(GetWorld(), 1, true);
-    APawn* bPlayerInGame = GetWorld()->SpawnActor<APawn>(bPlayer, FVector(50, 0, 100), FRotator(0, 0, 0));
+    APawn* bPlayerInGame = GetWorld()->SpawnActor<APawn>(bPlayer, FVector(70, 30, 150), FRotator(0, 0, 0));
     bPlayerInGame->AttachToActor(aPlayerInGame, FAttachmentTransformRules::KeepRelativeTransform);
     if (B)
     {

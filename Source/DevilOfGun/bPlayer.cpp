@@ -23,7 +23,7 @@ AbPlayer::AbPlayer()
 
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
-	FollowCamera->AddLocalRotation(FRotator(0.0f, 0.0f, 90.0f));
+	FollowCamera->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
 	FollowCamera->bUsePawnControlRotation = false;
 }
 
