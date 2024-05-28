@@ -31,7 +31,6 @@ AbPlayer::AbPlayer()
 void AbPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -45,6 +44,16 @@ void AbPlayer::Tick(float DeltaTime)
 void AbPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
+
+void AbPlayer::AddControllerPitchInput(float Val)
+{
+	Super::AddControllerPitchInput(Val);
+}
+
+void AbPlayer::AddControllerYawInput(float Val)
+{
+	Super::AddControllerYawInput(Val);
+}
+
 

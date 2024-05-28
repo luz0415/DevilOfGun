@@ -24,6 +24,7 @@ class DEVILOFGUN_API AaPlayer : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AaPlayer();
+	class AbPlayer* bPlayer;
 
 protected:
 	// Called when the game starts or when spawned
@@ -70,6 +71,8 @@ private:
 	void AnimCtrl();
 	void SprintStart();
 	void SprintEnd();
+	void AddbPlayerPitchInput(float Val);
+	void AddbPlayerYawInput(float Val);
 
 	bool isSprint = false;
 	float moveRightValue;

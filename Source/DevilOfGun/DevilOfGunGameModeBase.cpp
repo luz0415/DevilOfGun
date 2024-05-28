@@ -4,8 +4,8 @@
 #include "DevilOfGunGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
-#include "aPlayerController.h"
-#include "bPlayerController.h"
+#include "aPlayer.h"
+#include "bPlayer.h"
 
 ADevilOfGunGameModeBase::ADevilOfGunGameModeBase()
 {
@@ -15,22 +15,24 @@ ADevilOfGunGameModeBase::ADevilOfGunGameModeBase()
 void ADevilOfGunGameModeBase::StartPlay()
 {
     Super::StartPlay();
-    UGameplayStatics::SetPlayerControllerID(Cast<AaPlayerController>(aPlayerController), 0);
-    UGameplayStatics::SetPlayerControllerID(Cast<AbPlayerController>(bPlayerController), 1);
-    UGameInstance* GameInstance = GetGameInstance();
+    //UGameplayStatics::SetPlayerControllerID(Cast<AaPlayerController>(aPlayerController), 0);
+    //UGameplayStatics::SetPlayerControllerID(Cast<AaPlayerController>(bPlayerController), 1);
 
     APlayerController* A = GetWorld()->GetFirstPlayerController();
-    APawn* aPlayerInGame = GetWorld()->SpawnActor<APawn>(aPlayer, FVector(0, 0, 0), FRotator(0, 0, 0));
+    AaPlayer* aPlayerInGame = GetWorld()->SpawnActor<AaPlayer>(aPlayer, FVector(0, 0, 0), FRotator(0, 0, 0));
     if (A)
     {
 		A->Possess(aPlayerInGame);
 	}
 
     APlayerController* B = UGameplayStatics::CreatePlayer(GetWorld(), 1, true);
-    APawn* bPlayerInGame = GetWorld()->SpawnActor<APawn>(bPlayer, FVector(70, 30, 150), FRotator(0, 0, 0));
+
+    AbPlayer* bPlayerInGame = GetWorld()->SpawnActor<AbPlayer>(bPlayer, FVector(70, 30, 150), FRotator(0, 0, 0));
     bPlayerInGame->AttachToActor(aPlayerInGame, FAttachmentTransformRules::KeepRelativeTransform);
+    aPlayerInGame->bPlayer = bPlayerInGame;
     if (B)
     {
 		B->Possess(bPlayerInGame);
+        B->InitInputSystem();
 	}
 }

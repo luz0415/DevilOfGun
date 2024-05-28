@@ -6,6 +6,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/ArrowComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "bPlayer.h"
 
 // Sets default values
 AaPlayer::AaPlayer()
@@ -64,6 +65,9 @@ void AaPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AaPlayer::JumpStop);
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AaPlayer::SprintStart);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AaPlayer::SprintEnd);
+	
+	PlayerInputComponent->BindAxis("LookUp", this, &AaPlayer::AddbPlayerPitchInput);
+	PlayerInputComponent->BindAxis("Turn", this, &AaPlayer::AddbPlayerYawInput);
 }
 
 void AaPlayer::SetMoveHorizontal(float value) {
@@ -86,6 +90,16 @@ void AaPlayer::SprintStart() {
 }
 void AaPlayer::SprintEnd() {
 	isSprint = false;
+}
+
+void AaPlayer::AddbPlayerPitchInput(float Val)
+{
+	bPlayer->AddControllerPitchInput(Val);
+}
+
+void AaPlayer::AddbPlayerYawInput(float Val)
+{
+	bPlayer->AddControllerPitchInput(Val);
 }
 
 void AaPlayer::JumpStart() {
