@@ -71,8 +71,9 @@ private:
 	void AnimCtrl();
 	void SprintStart();
 	void SprintEnd();
-	void AddbPlayerPitchInput(float Val);
+	void AddbPlayerRollInput(float Val);
 	void AddbPlayerYawInput(float Val);
+	//void Fire_A(); 총알 발사 함수(보류)
 
 	bool isSprint = false;
 	float moveRightValue;

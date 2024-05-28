@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "FPSProjectile.h"
 #include "bPlayer.generated.h"
 
 UCLASS()
@@ -26,8 +27,18 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	virtual void AddControllerPitchInput(float Val) override;
+	virtual void AddControllerRollInput(float Val) override;
 	virtual void AddControllerYawInput(float Val) override;
+	
+	/* ÃÑ¾Ë ¹ß»ç
+	void Fire();
+
+	UPROPERTY(EditAnywhere, BluePrintReadWrite, Category = "GamePlay")
+		FVector MuzzleOffset;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+		TSubclassOf<AFPSProjectile> ProjectileClass;
+	*/
 
 // Camera Section
 private:

@@ -27,7 +27,7 @@ void ADevilOfGunGameModeBase::StartPlay()
 
     APlayerController* B = UGameplayStatics::CreatePlayer(GetWorld(), 1, true);
 
-    AbPlayer* bPlayerInGame = GetWorld()->SpawnActor<AbPlayer>(bPlayer, FVector(70, 30, 150), FRotator(0, 0, 0));
+    AbPlayer* bPlayerInGame = GetWorld()->SpawnActor<AbPlayer>(bPlayer, FVector(30, 45, 125), FRotator(0, 0, 0));
     bPlayerInGame->AttachToActor(aPlayerInGame, FAttachmentTransformRules::KeepRelativeTransform);
     aPlayerInGame->bPlayer = bPlayerInGame;
     if (B)

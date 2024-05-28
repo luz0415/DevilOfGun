@@ -66,8 +66,11 @@ void AaPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AaPlayer::SprintStart);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AaPlayer::SprintEnd);
 	
-	PlayerInputComponent->BindAxis("LookUp", this, &AaPlayer::AddbPlayerPitchInput);
+	//bPlayer 조작
+	PlayerInputComponent->BindAxis("LookUp", this, &AaPlayer::AddbPlayerRollInput);
 	PlayerInputComponent->BindAxis("Turn", this, &AaPlayer::AddbPlayerYawInput);
+
+	//PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AaPlayer::Fire_A); 총알 발사 (보류)
 }
 
 void AaPlayer::SetMoveHorizontal(float value) {
@@ -92,15 +95,22 @@ void AaPlayer::SprintEnd() {
 	isSprint = false;
 }
 
-void AaPlayer::AddbPlayerPitchInput(float Val)
+void AaPlayer::AddbPlayerRollInput(float Val)
 {
-	bPlayer->AddControllerPitchInput(Val);
+	bPlayer->AddControllerRollInput(Val);
 }
 
 void AaPlayer::AddbPlayerYawInput(float Val)
 {
-	bPlayer->AddControllerPitchInput(Val);
+	bPlayer->AddControllerYawInput(Val);
 }
+
+/* 총알 발사 (보류)
+void AaPlayer::Fire_A()
+{
+	bPlayer->Fire();
+}
+*/
 
 void AaPlayer::JumpStart() {
 	bPressedJump = true;

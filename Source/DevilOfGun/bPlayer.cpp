@@ -17,8 +17,8 @@ AbPlayer::AbPlayer()
 	// Camera
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = -40.0f;
-	CameraBoom->TargetOffset = FVector(-40.0f, 40.0f, 0.0f);
+	CameraBoom->TargetArmLength = 0.0f;
+	CameraBoom->TargetOffset = FVector(0.0f, 0.0f, 0.0f);
 	CameraBoom->bUsePawnControlRotation = true;
 
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
@@ -46,9 +46,9 @@ void AbPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void AbPlayer::AddControllerPitchInput(float Val)
+void AbPlayer::AddControllerRollInput(float Val)
 {
-	Super::AddControllerPitchInput(Val);
+	Super::AddControllerRollInput(Val);
 }
 
 void AbPlayer::AddControllerYawInput(float Val)
@@ -56,4 +56,34 @@ void AbPlayer::AddControllerYawInput(float Val)
 	Super::AddControllerYawInput(Val);
 }
 
+/* 총알 발사 함수
+void AbPlayer::Fire()
+{
+	if (ProjectileClass)
+	{
+		FVector CameraLocation;
+		FRotator CameraRotation;
+		GetActorEyesViewPoint(CameraLocation, CameraRotation);
+
+		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);
+		FRotator MuzzleRotation = CameraRotation;
+		MuzzleRotation.Yaw += 90.0f;
+
+		UWorld* World = GetWorld();
+		if (World)
+		{
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.Owner = this;
+			SpawnParams.Instigator = GetInstigator();
+
+			AFPSProjectile* Projectile = World->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
+			if (Projectile)
+			{
+				FVector LaunchDirection = MuzzleRotation.Vector();
+				Projectile->FireInDirection(LaunchDirection);
+			}
+		}
+	}
+}
+*/
 
