@@ -63,6 +63,8 @@ void AaPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AaPlayer::JumpStart);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AaPlayer::JumpStop);
+	PlayerInputComponent->BindAction("APlayerFire", IE_Pressed, this, &AaPlayer::APlayerFireStart);
+	PlayerInputComponent->BindAction("APlayerFire", IE_Released, this, &AaPlayer::APlayerFireEnd);
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AaPlayer::SprintStart);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AaPlayer::SprintEnd);
 	
@@ -116,6 +118,15 @@ void AaPlayer::JumpStop() {
 	bPressedJump = false;
 }
 
+void AaPlayer::APlayerFireStart() {
+	isFire = true;
+}
+
+void AaPlayer::APlayerFireEnd() {
+	isFire = false;
+	fireCount = 1;
+}
+
 void AaPlayer::AnimCtrl() {
 	if (moveRightValue != 0 && !isSprint) {
 		playerAnimType = EPlayerType::TE_OptionB;
@@ -123,6 +134,10 @@ void AaPlayer::AnimCtrl() {
 
 	else if (moveRightValue != 0 && isSprint) {
 		playerAnimType = EPlayerType::TE_OptionC;
+	}
+
+	else if (isFire && !isSprint) {
+		playerAnimType = EPlayerType::TE_OptionD;
 	}
 
 	else if (moveRightValue == 0) {

@@ -13,7 +13,8 @@ enum class EPlayerType : uint8 {
 	TE_OptionA UMETA(DisplayName = "Idle"),
 	TE_OptionB UMETA(DisplayName = "Move"),
 	TE_OptionC UMETA(DisplayName = "Sprint"),
-	TE_OptionD UMETA(DisplayName = "Die"),
+	TE_OptionD UMETA(DisplayName = "Fire"),
+	TE_OptionE UMETA(DisplayName = "Die"),
 };
 
 UCLASS()
@@ -71,10 +72,14 @@ private:
 	void AnimCtrl();
 	void SprintStart();
 	void SprintEnd();
+	void APlayerFireStart();
+	void APlayerFireEnd();
 	void AddbPlayerRollInput(float Val);
 	void AddbPlayerYawInput(float Val);
 	//void Fire_A(); 총알 발사 함수(보류)
 
 	bool isSprint = false;
+	bool isFire = false;
+	int fireCount = 1;
 	float moveRightValue;
 };
