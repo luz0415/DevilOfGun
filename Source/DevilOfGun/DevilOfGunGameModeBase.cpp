@@ -2,6 +2,8 @@
 
 
 #include "DevilOfGunGameModeBase.h"
+#include "Blueprint/UserWidget.h"
+#include "MainWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
 #include "aPlayer.h"
@@ -35,4 +37,12 @@ void ADevilOfGunGameModeBase::StartPlay()
 		B->Possess(bPlayerInGame);
         B->InitInputSystem();
 	}
+
+    if (mainWidget != nullptr) {
+        mainUI = CreateWidget<UmainWidget>(GetWorld(), mainWidget);
+
+        if (mainUI != nullptr) {
+            mainUI->AddToViewport();
+        }
+    }
 }

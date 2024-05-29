@@ -13,6 +13,10 @@ UCLASS()
 class DEVILOFGUN_API ADevilOfGunGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+private:
+	float currentHp;
+	class UmainWidget* mainUI;
 	
 public:
 	ADevilOfGunGameModeBase();
@@ -30,4 +34,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class APlayerController> bPlayerController;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UmainWidget> mainWidget;
+
+	void changeHp(float hp);
 };
