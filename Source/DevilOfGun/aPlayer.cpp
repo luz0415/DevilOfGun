@@ -86,10 +86,7 @@ void AaPlayer::SetMoveHorizontal(float value) {
 }
 
 void AaPlayer::SprintStart() {
-	if (moveRightValue != 0) {
-		playerAnimType = EPlayerType::TE_OptionC;
-		isSprint = true;
-	}
+	isSprint = true;
 }
 void AaPlayer::SprintEnd() {
 	isSprint = false;
@@ -124,7 +121,11 @@ void AaPlayer::AnimCtrl() {
 		playerAnimType = EPlayerType::TE_OptionB;
 	}
 
-	else if(!isSprint) {
+	else if (moveRightValue != 0 && isSprint) {
+		playerAnimType = EPlayerType::TE_OptionC;
+	}
+
+	else if (moveRightValue == 0) {
 		playerAnimType = EPlayerType::TE_OptionA;
 	}
 }
