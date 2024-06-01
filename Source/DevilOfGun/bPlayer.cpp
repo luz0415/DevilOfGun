@@ -56,18 +56,20 @@ void AbPlayer::AddControllerYawInput(float Val)
 	Super::AddControllerYawInput(Val);
 }
 
-/* 총알 발사 함수
+
 void AbPlayer::Fire()
 {
 	if (ProjectileClass)
 	{
 		FVector CameraLocation;
 		FRotator CameraRotation;
-		GetActorEyesViewPoint(CameraLocation, CameraRotation);
+		CameraLocation = GetActorLocation();
+		CameraRotation = Mesh->GetRelativeRotation();
 
 		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);
 		FRotator MuzzleRotation = CameraRotation;
 		MuzzleRotation.Yaw += 90.0f;
+		MuzzleRotation.Pitch -= Mesh->GetRelativeRotation().Roll;
 
 		UWorld* World = GetWorld();
 		if (World)
@@ -85,5 +87,4 @@ void AbPlayer::Fire()
 		}
 	}
 }
-*/
 

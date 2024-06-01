@@ -76,7 +76,7 @@ private:
 	void APlayerFireEnd();
 	void AddbPlayerRollInput(float Val);
 	void AddbPlayerYawInput(float Val);
-	//void Fire_A(); �Ѿ� �߻� �Լ�(����)
+	void Fire_A();
 
 	bool isSprint = false;
 	bool isFire = false;
