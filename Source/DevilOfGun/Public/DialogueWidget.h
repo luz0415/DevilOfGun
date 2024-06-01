@@ -1,0 +1,47 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Blueprint/UserWidget.h"
+#include "DialogueWidget.generated.h"
+
+/**
+ * 
+ */
+UCLASS()
+class DEVILOFGUN_API UDialogueWidget : public UUserWidget
+{
+	GENERATED_BODY()
+
+public:
+	virtual void NativeConstruct() override;
+	void AddDialogue(const FString& dialogue);
+	void ClearDialogue();
+	void NextDialogue();
+
+private:
+	UPROPERTY(EditAnyWhere, meta = (BindWidget))
+	class UButton* nextButton;
+
+	UFUNCTION()
+	void CompleteOrSkipDialogue();
+
+	UPROPERTY(EditAnyWhere, meta = (BindWidget))
+	class UTextBlock* dialogueText;
+
+	UPROPERTY(EditAnyWhere, meta = (BindWidget))
+	class UImage* mouseImage;
+
+	uint8 bIsDialogueFinished : 1;
+	TArray<FString> dialogues;
+	int32 dialogueIndex;
+
+private:
+	UPROPERTY(EditAnyWhere)
+	float letterSpeed = 0.1f;
+
+	FTimerHandle letterTimer;
+	int32 letterIndex;
+	void NextLetter();
+};
