@@ -16,6 +16,7 @@ class DEVILOFGUN_API AStartLevelGameModeBase : public AGameModeBase
 	
 public:
 	virtual void StartPlay() override;
+	void CompleteOrSkipDialogue();
 
 	UPROPERTY(EditAnywhere)	
 	TSubclassOf<class UDialogueWidget> dialogueWidget;

@@ -22,3 +22,10 @@ void AStartLevelGameModeBase::StartPlay()
         }
     }
 }
+
+void AStartLevelGameModeBase::CompleteOrSkipDialogue()
+{
+    if (dialogueUI != nullptr) {
+		dialogueUI->CompleteOrSkipDialogue();
+	}
+}

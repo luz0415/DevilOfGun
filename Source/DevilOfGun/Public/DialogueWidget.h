@@ -20,12 +20,12 @@ public:
 	void ClearDialogue();
 	void NextDialogue();
 
+	UFUNCTION()
+	void CompleteOrSkipDialogue();
+
 private:
 	UPROPERTY(EditAnyWhere, meta = (BindWidget))
 	class UButton* nextButton;
-
-	UFUNCTION()
-	void CompleteOrSkipDialogue();
 
 	UPROPERTY(EditAnyWhere, meta = (BindWidget))
 	class UTextBlock* dialogueText;
