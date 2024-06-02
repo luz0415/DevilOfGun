@@ -16,10 +16,9 @@ class DEVILOFGUN_API UDialogueWidget : public UUserWidget
 
 public:
 	virtual void NativeConstruct() override;
-	void AddDialogue(const FString& dialogue);
+	void AddDialogue(const FString& dialogue, int32 startFrame);
 	void ClearDialogue();
 	void NextDialogue();
-
 	UFUNCTION()
 	void CompleteOrSkipDialogue();
 
@@ -35,6 +34,7 @@ private:
 
 	uint8 bIsDialogueFinished : 1;
 	TArray<FString> dialogues;
+	TArray<int32> dialogueStartFrames;
 	int32 dialogueIndex;
 
 private:

@@ -5,6 +5,7 @@
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
+#include "StartLevelGameModeBase.h"
 
 void UDialogueWidget::NativeConstruct()
 {
@@ -14,9 +15,10 @@ void UDialogueWidget::NativeConstruct()
 	nextButton->OnClicked.AddDynamic(this, &UDialogueWidget::CompleteOrSkipDialogue);
 }
 
-void UDialogueWidget::AddDialogue(const FString& dialogue)
+void UDialogueWidget::AddDialogue(const FString& dialogue, int32 startFrame)
 {
 	dialogues.Add(dialogue);
+	dialogueStartFrames.Add(startFrame);
 }
 
 void UDialogueWidget::ClearDialogue()
@@ -31,12 +33,18 @@ void UDialogueWidget::NextDialogue()
 	letterIndex = 0;
 	if (dialogues.Num() > 0 && dialogues.Num() > dialogueIndex)
 	{
+		AStartLevelGameModeBase* gameMode = Cast<AStartLevelGameModeBase>(GetWorld()->GetAuthGameMode());
+		if (gameMode != nullptr)
+		{
+			gameMode->SkipFrame(dialogueStartFrames[dialogueIndex]+1);
+		}
 		mouseImage->SetVisibility(ESlateVisibility::Hidden);
 		bIsDialogueFinished = false;
 		dialogueText->SetText(FText::FromString(""));
 		GetWorld()->GetTimerManager().SetTimer(letterTimer, this, &UDialogueWidget::NextLetter, letterSpeed, true);
 	}
 }
+
 
 void UDialogueWidget::CompleteOrSkipDialogue()
 {

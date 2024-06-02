@@ -13,7 +13,6 @@ void ACinematicSequenceBinder::NextDialogueWhenSequenceIsFinished()
 {
 	GetWorld()->GetAuthGameMode<AStartLevelGameModeBase>()->CompleteOrSkipDialogue();
 }
-
 void ACinematicSequenceBinder::BeginPlay()
 {
 	Super::BeginPlay();

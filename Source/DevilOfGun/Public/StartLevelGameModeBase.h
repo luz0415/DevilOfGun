@@ -17,10 +17,12 @@ class DEVILOFGUN_API AStartLevelGameModeBase : public AGameModeBase
 public:
 	virtual void StartPlay() override;
 	void CompleteOrSkipDialogue();
+	void SkipFrame(int32 frame);
 
 	UPROPERTY(EditAnywhere)	
 	TSubclassOf<class UDialogueWidget> dialogueWidget;
 
 private:
 	class UDialogueWidget* dialogueUI;
+	class ULevelSequencePlayer* SequencePlayer;
 };

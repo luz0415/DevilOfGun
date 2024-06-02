@@ -16,6 +16,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void NextDialogueWhenSequenceIsFinished();
 
+	UFUNCTION(BlueprintCallable)
+	void SetIsSequenceFinished(bool bIsFinished) { bIsSequenceFinished = bIsFinished; }
+	uint8 bIsSequenceFinished : 1;
+
 
 protected:
 	virtual void BeginPlay() override;
