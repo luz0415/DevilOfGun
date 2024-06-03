@@ -14,12 +14,7 @@ class DEVILOFGUN_API ACinematicSequenceBinder : public AActor
 public:	
 	ACinematicSequenceBinder();
 	UFUNCTION(BlueprintCallable)
-	void NextDialogueWhenSequenceIsFinished();
-
-	UFUNCTION(BlueprintCallable)
-	void SetIsSequenceFinished(bool bIsFinished) { bIsSequenceFinished = bIsFinished; }
-	uint8 bIsSequenceFinished : 1;
-
+	void StopSequence(class ULevelSequencePlayer* SequencePlayer);
 
 protected:
 	virtual void BeginPlay() override;

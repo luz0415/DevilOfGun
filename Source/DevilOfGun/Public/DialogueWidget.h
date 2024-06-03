@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -44,4 +44,9 @@ private:
 	FTimerHandle letterTimer;
 	int32 letterIndex;
 	void NextLetter();
+
+	UPROPERTY(EditAnywhere)
+	float mosueImgSpeed = 0.5f;
+	FTimerHandle mouseImgTimer;
+	void BlinkMouseImage();
 };

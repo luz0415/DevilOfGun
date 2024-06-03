@@ -3,15 +3,15 @@
 
 #include "CinematicSequenceBinder.h"
 #include "StartLevelGameModeBase.h"
-
+#include "LevelSequenceActor.h"
 ACinematicSequenceBinder::ACinematicSequenceBinder()
 {
 
 }
 
-void ACinematicSequenceBinder::NextDialogueWhenSequenceIsFinished()
+void ACinematicSequenceBinder::StopSequence(class ULevelSequencePlayer* SequencePlayer)
 {
-	GetWorld()->GetAuthGameMode<AStartLevelGameModeBase>()->CompleteOrSkipDialogue();
+	SequencePlayer->Pause();
 }
 void ACinematicSequenceBinder::BeginPlay()
 {

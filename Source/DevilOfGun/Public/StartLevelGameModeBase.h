@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -18,6 +18,7 @@ public:
 	virtual void StartPlay() override;
 	void CompleteOrSkipDialogue();
 	void SkipFrame(int32 frame);
+	void ResumeSequencer();
 
 	UPROPERTY(EditAnywhere)	
 	TSubclassOf<class UDialogueWidget> dialogueWidget;

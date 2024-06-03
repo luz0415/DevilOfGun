@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "DialogueWidget.h"
@@ -29,6 +29,7 @@ void UDialogueWidget::ClearDialogue()
 void UDialogueWidget::NextDialogue()
 {
 	GetWorld()->GetTimerManager().ClearTimer(letterTimer);
+	GetWorld()->GetTimerManager().ClearTimer(mouseImgTimer);
 	dialogueIndex++;
 	letterIndex = 0;
 	if (dialogues.Num() > 0 && dialogues.Num() > dialogueIndex)
@@ -36,7 +37,8 @@ void UDialogueWidget::NextDialogue()
 		AStartLevelGameModeBase* gameMode = Cast<AStartLevelGameModeBase>(GetWorld()->GetAuthGameMode());
 		if (gameMode != nullptr)
 		{
-			gameMode->SkipFrame(dialogueStartFrames[dialogueIndex]+1);
+			gameMode->SkipFrame(dialogueStartFrames[dialogueIndex]);
+			gameMode->ResumeSequencer();
 		}
 		mouseImage->SetVisibility(ESlateVisibility::Hidden);
 		bIsDialogueFinished = false;
@@ -56,7 +58,7 @@ void UDialogueWidget::CompleteOrSkipDialogue()
 	{
 		GetWorld()->GetTimerManager().ClearTimer(letterTimer);
 		dialogueText->SetText(FText::FromString(dialogues[dialogueIndex]));
-		mouseImage->SetVisibility(ESlateVisibility::Visible);
+		GetWorld()->GetTimerManager().SetTimer(letterTimer, this, &UDialogueWidget::BlinkMouseImage, mosueImgSpeed, true);
 		bIsDialogueFinished = true;
 	}
 }
@@ -73,5 +75,17 @@ void UDialogueWidget::NextLetter()
 	else
 	{
 		CompleteOrSkipDialogue();
+	}
+}
+
+void UDialogueWidget::BlinkMouseImage()
+{
+	if (mouseImage->GetVisibility() == ESlateVisibility::Visible)
+	{
+		mouseImage->SetVisibility(ESlateVisibility::Hidden);
+	}
+	else
+	{
+		mouseImage->SetVisibility(ESlateVisibility::Visible);
 	}
 }
