@@ -30,7 +30,6 @@ public:
 	virtual void AddControllerRollInput(float Val) override;
 	virtual void AddControllerYawInput(float Val) override;
 	
-	/* ÃÑ¾Ë ¹ß»ç
 	void Fire();
 
 	UPROPERTY(EditAnywhere, BluePrintReadWrite, Category = "GamePlay")
@@ -38,7 +37,6 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 		TSubclassOf<AFPSProjectile> ProjectileClass;
-	*/
 
 // Camera Section
 private:
