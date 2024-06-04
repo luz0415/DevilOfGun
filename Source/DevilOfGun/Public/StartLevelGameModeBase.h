@@ -22,8 +22,15 @@ public:
 
 	UPROPERTY(EditAnywhere)	
 	TSubclassOf<class UDialogueWidget> dialogueWidget;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class ULobbyWidget> lobbyWidget;
 
 private:
 	class UDialogueWidget* dialogueUI;
-	class ULevelSequencePlayer* SequencePlayer;
+	class ULobbyWidget* lobbyUI;
+	class ULevelSequencePlayer* StartSequencePlayer;
+	class ULevelSequencePlayer* LobbySequencePlayer;
+
+public:
+	void SkipCinematic();
 };

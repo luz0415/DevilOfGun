@@ -4,16 +4,17 @@
 #include "StartLevelGameModeBase.h"
 #include "Blueprint/UserWidget.h"
 #include "DialogueWidget.h"
+#include "LobbyWidget.h"
 #include "LevelSequencePlayer.h"
 
 void AStartLevelGameModeBase::StartPlay()
 {
     Super::StartPlay();
-    FStringAssetReference SequenceName("/Game/Maps/MatineeActorLevelSequence.MatineeActorLevelSequence");
+    FStringAssetReference SequenceName("/Game/Levels/CinematicSequence.CinematicSequence");
     ULevelSequence* Asset = Cast<ULevelSequence>(SequenceName.TryLoad());
     ALevelSequenceActor* LevelSequenceActor;
-    SequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(this, Asset, FMovieSceneSequencePlaybackSettings(), LevelSequenceActor);
-    SequencePlayer->Play();
+    StartSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(this, Asset, FMovieSceneSequencePlaybackSettings(), LevelSequenceActor);
+    StartSequencePlayer->Play();
 
     if (dialogueWidget != nullptr) {
         dialogueUI = CreateWidget<UDialogueWidget>(GetWorld(), dialogueWidget);
@@ -39,15 +40,36 @@ void AStartLevelGameModeBase::CompleteOrSkipDialogue()
 
 void AStartLevelGameModeBase::SkipFrame(int32 frameNumber)
 {
-    if (SequencePlayer != nullptr) {
+    if (StartSequencePlayer != nullptr) {
         FFrameTime frame = FFrameTime(frameNumber);
-		SequencePlayer->JumpToFrame(frame);
+		StartSequencePlayer->JumpToFrame(frame);
 	}
 }
 
 void AStartLevelGameModeBase::ResumeSequencer()
 {
-    if (SequencePlayer != nullptr) {
-		SequencePlayer->Play();
+    if (StartSequencePlayer != nullptr) {
+		StartSequencePlayer->Play();
 	}
+}
+
+void AStartLevelGameModeBase::SkipCinematic()
+{
+    if (StartSequencePlayer != nullptr) {
+		StartSequencePlayer->Stop();
+	}
+    if (dialogueUI != nullptr) {
+        dialogueUI->RemoveFromViewport();
+    }
+    FStringAssetReference SequenceName("/Game/Levels/LobbySequence.LobbySequence");
+    ULevelSequence* Asset = Cast<ULevelSequence>(SequenceName.TryLoad());
+    ALevelSequenceActor* LevelSequenceActor;
+    LobbySequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(this, Asset, FMovieSceneSequencePlaybackSettings(), LevelSequenceActor);
+    LobbySequencePlayer->PlayLooping(-1);
+    if (lobbyWidget != nullptr) {
+        lobbyUI = CreateWidget<ULobbyWidget>(GetWorld(), lobbyWidget);
+        if (lobbyUI != nullptr) {
+            lobbyUI->AddToViewport();
+        }
+    }
 }

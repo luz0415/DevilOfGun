@@ -44,9 +44,17 @@ void UDialogueWidget::NextDialogue()
 		bIsDialogueFinished = false;
 		dialogueText->SetText(FText::FromString(""));
 		GetWorld()->GetTimerManager().SetTimer(letterTimer, this, &UDialogueWidget::NextLetter, letterSpeed, true);
+	}	
+	else if (dialogueIndex == dialogues.Num())
+	{
+		AStartLevelGameModeBase* gameMode = Cast<AStartLevelGameModeBase>(GetWorld()->GetAuthGameMode());
+		if (gameMode != nullptr)
+		{
+			gameMode->SkipCinematic();
+			return;
+		}
 	}
 }
-
 
 void UDialogueWidget::CompleteOrSkipDialogue()
 {
