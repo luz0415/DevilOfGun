@@ -32,6 +32,7 @@ public:
 		UProjectileMovementComponent* ProjectileMovementComponent;
 
 	void FireInDirection(const FVector& ShootDirection);
-};
 
-//º¸·ù
+	UFUNCTION()
+		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponet, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+};
