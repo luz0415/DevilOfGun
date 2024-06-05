@@ -3,8 +3,3 @@
 
 #include "Eani.h"
 
-void UEani:: OnEndAttackAnimation()
-{
-	attackplay = false;
-}
-

@@ -34,7 +34,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = FSM)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = FSM)
 	EEnemyState mState = EEnemyState::Idle;
 
 	// 대기 상태
@@ -52,12 +52,12 @@ public:
 	// 대기 시간
 	
 	UPROPERTY(EditAnywhere, Category = FSM)
-	float idleDelayTime = 1;
+	float idleDelayTime = 2;
 	// 경과 시간
 	float currentTime = 0;
 
 	//플레이어
-	UPROPERTY(EditAnywhere, Category = FSM)
+	UPROPERTY(VisibleAnywhere, Category = FSM)
 	class AaPlayer* target; 
 	UPROPERTY()
 	//적(자신)
@@ -67,17 +67,16 @@ public:
 	float attackRange = 150.0f;
 	//공격 대기시간
 	UPROPERTY(EditAnywhere, Category = FSM)
-	float attackDelayTime = 1.0f;
+	float attackDelayTime = 2.0f;
 
-	float hp = 5;
+	void OnDamageProcess();
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = FSM)
+	int32 hp = 3;
 	// 피격 대기 시간
 	UPROPERTY(EditAnywhere, Category = FSM)
-	float damageDelayTime = 0.5f;
+	float damageDelayTime = 2.0f;
 
 	//사망 하강속도
 	UPROPERTY(EditAnywhere, Category = FSM)
 	float dieSpeed = 50.0f;
-
-	UPROPERTY()
-	class UEani* anim;
 };

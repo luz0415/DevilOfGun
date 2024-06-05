@@ -2,11 +2,13 @@
 
 #pragma once
 
-#include "EnemyFSM1.h"
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
 #include "Eani.generated.h"
 
+/**
+ * 
+ */
 UCLASS()
 class DEVILOFGUN_API UEani : public UAnimInstance
 {
@@ -15,11 +17,4 @@ public:
 	// 플레이어 이동 속도
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = PlayerAnim)
 	float speed = 0;
-public:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = FSM)
-	EEnemyState animState;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = FSM)
-	bool attackplay= false;
-	UFUNCTION(BlueprintCallable, Category = FSMEvent)
-	void OnEndAttackAnimation();
 };

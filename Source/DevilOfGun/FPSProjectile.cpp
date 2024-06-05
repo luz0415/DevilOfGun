@@ -3,7 +3,6 @@
 
 #include "FPSProjectile.h"
 #include "Enemy1.h"
-#include "EnemyFSM1.h"
 
 // Sets default values
 AFPSProjectile::AFPSProjectile()
@@ -53,7 +52,11 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor
 
 	if (Enemy1 != nullptr)
 	{
-		Enemy1->TakeDamage(1);
+		Enemy1->Enemy1_Hp -= 1;
+		if (Enemy1->Enemy1_Hp <= 0)
+		{
+			OtherActor->Destroy();
+		}
 	}
 
 	Destroy();

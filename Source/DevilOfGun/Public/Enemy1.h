@@ -28,13 +28,8 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	USkeletalMeshComponent* body;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = FSMComponent)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = FSMComponent)
 	class UEnemyFSM1* fsm;
 
-	UPROPERTY(EditAnywhere)
-	float hp = 5;
-	UPROPERTY(EditAnywhere)
-	FString name = "basic";
-
-	void TakeDamage(float damage);
+	int Enemy1_Hp = 5;
 };

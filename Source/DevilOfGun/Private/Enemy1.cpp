@@ -36,8 +36,3 @@ void AEnemy1::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void AEnemy1::TakeDamage(float damage)
-{
-	hp -= damage;
-
-}
