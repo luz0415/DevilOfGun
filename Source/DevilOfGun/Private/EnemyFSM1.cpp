@@ -4,6 +4,7 @@
 #include "EnemyFSM1.h"
 #include "../aPlayer.h"
 #include "Enemy1.h"
+#include "Eani.h"
 #include <Kismet/GameplayStatics.h>
 #include <Components/CapsuleComponent.h> 
 
@@ -29,6 +30,8 @@ void UEnemyFSM1::BeginPlay()
 	target = Cast<AaPlayer>(actor);
 	// 소유 객체 가져오기
 	me = Cast<AEnemy1>(GetOwner());
+	anim=Cast<UEani>(me->body->GetAnimInstance());
+
 }
 
 
@@ -36,6 +39,12 @@ void UEnemyFSM1::BeginPlay()
 void UEnemyFSM1::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (me->hp != hp) {
+		hp = me->hp;
+		currentTime = 0;
+		mState = EEnemyState::Damage;
+	}
 
 	switch (mState) {
 	case EEnemyState::Idle:
@@ -56,6 +65,7 @@ void UEnemyFSM1::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 	}
 }
 void UEnemyFSM1::IdleState() {
+	anim->animState = mState;
 	currentTime += GetWorld()->DeltaTimeSeconds;
 	// 초반 대기시간
 	if (currentTime > idleDelayTime)
@@ -71,6 +81,8 @@ void UEnemyFSM1::IdleState() {
 		if (dir.Size() < attackRange * 3)
 		{
 			mState = EEnemyState::Move;
+			
+
 		}
 		// 경과 시간 초기화
 
@@ -81,13 +93,16 @@ void UEnemyFSM1::IdleState() {
 }
 // 이동 상태
 void UEnemyFSM1::MoveState() {
+	anim->animState = mState;
 	FVector destination = target->GetActorLocation();
 	FVector dir = destination - me->GetActorLocation();
 	me->AddMovementInput(dir.GetSafeNormal());
 	if (dir.Size() < attackRange)
 	{
-		// 2. 공격 상태로 전환하고 싶다.
+		anim->attackplay = false;
+		currentTime = 0.9;
 		mState = EEnemyState::Attack;
+
 	}
 	else if (dir.Size() > attackRange * 3)
 	{
@@ -96,15 +111,16 @@ void UEnemyFSM1::MoveState() {
 }
 // 공격 상태
 void UEnemyFSM1::AttackState() {
-
+	anim->animState = mState;
 	currentTime += GetWorld()->DeltaTimeSeconds;
 	if (currentTime > attackDelayTime) {
-		mState = EEnemyState::Move;
+		//attack
+		anim->attackplay = true;
 		currentTime = 0;
+		anim->animState = mState;
 	}
 	// 타깃과의 거리
 	float distance = FVector::Distance(target->GetActorLocation(), me->GetActorLocation());
-	// 2. 타깃과의 거리가 공격 범위를 벗어났으니까
 	if (distance > attackRange)
 	{
 		mState = EEnemyState::Move;
@@ -112,6 +128,10 @@ void UEnemyFSM1::AttackState() {
 }
 // 피격 상태
 void UEnemyFSM1::DamageState() {
+	anim->animState = mState;
+	if (hp <= 0)
+		mState = EEnemyState::Die;
+
 	currentTime += GetWorld()->DeltaTimeSeconds;
 	if (currentTime > damageDelayTime) {
 		mState = EEnemyState::Idle;
@@ -120,8 +140,8 @@ void UEnemyFSM1::DamageState() {
 }
 // 죽음 상태
 void UEnemyFSM1::DieState() {
+	anim->animState = mState;
 	me->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	// 계속 아래로 내려가고 싶다.
 	// 등속운동 공식 P = PO + vt
 
 	FVector PO = me->GetActorLocation();
@@ -130,15 +150,5 @@ void UEnemyFSM1::DieState() {
 	me->SetActorLocation(P);
 	if (P.Z < -200.f) {
 		me->Destroy();
-	}
-}
-
-void UEnemyFSM1::OnDamageProcess() {
-	hp--;
-	if (hp > 0) {
-		mState = EEnemyState::Damage;
-	}
-	else {
-		mState = EEnemyState::Die;
 	}
 }
