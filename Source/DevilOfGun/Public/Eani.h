@@ -23,7 +23,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = FSMEvent)
 	void OnEndAttackAnimation();
 	UFUNCTION(BlueprintCallable, Category = FSMEvent)
-	void AttackPlay();
+	void OnAttackPlay();
 
 	UPROPERTY(EditAnywhere, Category = FSM)
 	class AaPlayer* target;
