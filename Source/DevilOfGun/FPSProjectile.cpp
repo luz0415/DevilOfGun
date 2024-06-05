@@ -2,6 +2,7 @@
 
 
 #include "FPSProjectile.h"
+#include "Enemy1.h"
 
 // Sets default values
 AFPSProjectile::AFPSProjectile()
@@ -12,21 +13,25 @@ AFPSProjectile::AFPSProjectile()
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	CollisionComponent->InitSphereRadius(15.0f);
 	RootComponent = CollisionComponent;
+	CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
 
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 	ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
-	ProjectileMovementComponent->InitialSpeed = 3000.0f;
-	ProjectileMovementComponent->MaxSpeed = 3000.0f;
+	ProjectileMovementComponent->InitialSpeed = 2500.0f;
+	ProjectileMovementComponent->MaxSpeed = 2500.0f;
 	ProjectileMovementComponent->bRotationFollowsVelocity = true;
 	ProjectileMovementComponent->bShouldBounce = true;
 	ProjectileMovementComponent->Bounciness = 0.3f;
+
+	InitialLifeSpan = 1.0f;
 }
 
 // Called when the game starts or when spawned
 void AFPSProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &AFPSProjectile::OnHit);
 }
 
 // Called every frame
@@ -41,4 +46,18 @@ void AFPSProjectile::FireInDirection(const FVector& ShootDirection)
 	ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
 }
 
-// º¸·ù
+void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponet, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	AEnemy1* Enemy1 = Cast<AEnemy1>(OtherActor);
+
+	if (Enemy1 != nullptr)
+	{
+		Enemy1->Enemy1_Hp -= 1;
+		if (Enemy1->Enemy1_Hp <= 0)
+		{
+			OtherActor->Destroy();
+		}
+	}
+
+	Destroy();
+}

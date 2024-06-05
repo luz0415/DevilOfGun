@@ -11,7 +11,6 @@ AEnemy1::AEnemy1()
 	PrimaryActorTick.bCanEverTick = true;
 	body = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PlayerSkeletal"));
 	body->SetupAttachment(RootComponent);
-
 	//fsm Ãß°¡
 	fsm = CreateDefaultSubobject<UEnemyFSM1>(TEXT("FSM"));
 }

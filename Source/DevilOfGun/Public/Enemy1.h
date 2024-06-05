@@ -30,4 +30,6 @@ public:
 	USkeletalMeshComponent* body;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = FSMComponent)
 	class UEnemyFSM1* fsm;
+
+	int Enemy1_Hp = 5;
 };
