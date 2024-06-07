@@ -81,6 +81,8 @@ private:
 	void AddbPlayerYawInput(float Val);
 	void Fire_A();
 
+	void ControlHp();
+
 	bool isSprint = false;
 	bool isFire = false;
 	int fireCount = 1;

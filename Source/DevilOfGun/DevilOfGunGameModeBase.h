@@ -18,6 +18,7 @@ private:
 	int32 playerHp = 100;
 	int32 playerMaxHp = 100;
 	class UmainWidget* mainUI;
+	class UdieWidget* dieUi;
 
 	void PrintMainUi();
 	
@@ -40,6 +41,11 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UmainWidget> mainWidget;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UdieWidget> dieWidget;
+
+	void ShowDieWidget();
 
 	void PlayerChangeHp(int32 playerHp);
 };
