@@ -6,7 +6,6 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/ArrowComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "DevilOfGun/DevilOfGunGameModeBase.h"
 #include "bPlayer.h"
 
 // Sets default values
@@ -38,8 +37,6 @@ AaPlayer::AaPlayer()
 void AaPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-
-	tmpHP = hp;
 }
 
 // Called every frame
@@ -55,12 +52,11 @@ void AaPlayer::Tick(float DeltaTime)
 	AnimCtrl();
 
 	SetActorLocation(newLocation, true);
+<<<<<<< HEAD
 
-	if (hp != tmpHP) {
-		ADevilOfGunGameModeBase* currentGameModeBase = Cast<ADevilOfGunGameModeBase>(GetWorld()->GetAuthGameMode());
-		currentGameModeBase->PlayerChangeHp(hp);
-		tmpHP = hp;
-	}
+	ControlHp();
+=======
+>>>>>>> parent of e99b560 (V0.2.4)
 }
 
 // Called to bind functionality to input
@@ -114,6 +110,7 @@ void AaPlayer::AddbPlayerYawInput(float Val)
 
 void AaPlayer::Fire_A()
 {
+	hp -= 10;
 	bPlayer->Fire();
 }
 
@@ -149,5 +146,19 @@ void AaPlayer::AnimCtrl() {
 
 	else if (moveRightValue == 0) {
 		playerAnimType = EPlayerType::TE_OptionA;
+	}
+}
+
+void AaPlayer::ControlHp() {
+	if (hp != tmpHP) {
+		tmpHP = hp;
+		ADevilOfGunGameModeBase* currentGameModeBase = Cast<ADevilOfGunGameModeBase>(GetWorld()->GetAuthGameMode());
+		if (hp <= 0) {
+			currentGameModeBase->ShowDieWidget();
+			Destroy();
+		}
+		else {
+			currentGameModeBase->PlayerChangeHp(hp);
+		}
 	}
 }

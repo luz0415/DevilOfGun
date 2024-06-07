@@ -4,8 +4,12 @@
 #include "DevilOfGunGameModeBase.h"
 #include "Blueprint/UserWidget.h"
 #include "MainWidget.h"
+<<<<<<< HEAD
+#include "dieWidget.h"
 #include "Components/TextBlock.h"
 #include "Components/ProgressBar.h"
+=======
+>>>>>>> parent of e99b560 (V0.2.4)
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
 #include "aPlayer.h"
@@ -48,6 +52,23 @@ void ADevilOfGunGameModeBase::StartPlay()
         }
     }
 }
+<<<<<<< HEAD
+
+void ADevilOfGunGameModeBase::ShowDieWidget() {
+    if (dieWidget != nullptr) {
+        dieUi = CreateWidget<UdieWidget>(GetWorld(), dieWidget);
+
+
+        if (dieUi != nullptr) {
+            mainUI->RemoveFromViewport();
+            dieUi->AddToViewport();
+
+            UGameplayStatics::SetGamePaused(GetWorld(), true);
+
+            GetWorld()->GetFirstPlayerController()->SetShowMouseCursor(true);
+        }
+    }
+}
 
 void ADevilOfGunGameModeBase::PrintMainUi() {
     if (mainUI != nullptr) {
@@ -60,3 +81,5 @@ void ADevilOfGunGameModeBase::PlayerChangeHp(int32 IPlayerHp) {
     playerHp = IPlayerHp;
     PrintMainUi();
 }
+=======
+>>>>>>> parent of e99b560 (V0.2.4)
