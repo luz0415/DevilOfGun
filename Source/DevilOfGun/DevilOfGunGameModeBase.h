@@ -15,8 +15,11 @@ class DEVILOFGUN_API ADevilOfGunGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 private:
-	float currentHp;
+	int32 playerHp = 100;
+	int32 playerMaxHp = 100;
 	class UmainWidget* mainUI;
+
+	void PrintMainUi();
 	
 public:
 	ADevilOfGunGameModeBase();
@@ -38,5 +41,5 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UmainWidget> mainWidget;
 
-	void changeHp(float hp);
+	void PlayerChangeHp(int32 playerHp);
 };

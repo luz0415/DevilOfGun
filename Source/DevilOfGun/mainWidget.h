@@ -21,4 +21,10 @@ public:
 
 	UPROPERTY(EditAnyWhere, meta = (BindWidget))
 		class UProgressBar* EnemyProgressBar;
+
+	UPROPERTY(EditAnyWhere, meta = (BindWidget))
+		class UTextBlock* playerHpText;
+		
+	UPROPERTY(EditAnyWhere, meta = (BindWidget))
+		class UProgressBar* playerHpBar;
 };

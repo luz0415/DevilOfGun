@@ -4,6 +4,8 @@
 #include "DevilOfGunGameModeBase.h"
 #include "Blueprint/UserWidget.h"
 #include "MainWidget.h"
+#include "Components/TextBlock.h"
+#include "Components/ProgressBar.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
 #include "aPlayer.h"
@@ -45,4 +47,16 @@ void ADevilOfGunGameModeBase::StartPlay()
             mainUI->AddToViewport();
         }
     }
+}
+
+void ADevilOfGunGameModeBase::PrintMainUi() {
+    if (mainUI != nullptr) {
+        mainUI->playerHpBar->SetPercent(((float)playerHp / (float)playerMaxHp));
+        mainUI->playerHpText->SetText(FText::AsNumber(playerHp));
+    }
+}
+
+void ADevilOfGunGameModeBase::PlayerChangeHp(int32 IPlayerHp) {
+    playerHp = IPlayerHp;
+    PrintMainUi();
 }
