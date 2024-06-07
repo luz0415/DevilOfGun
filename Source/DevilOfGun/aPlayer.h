@@ -45,6 +45,9 @@ public:
 	float sprintMoveSpeed;
 
 	UPROPERTY(EditAnywhere)
+	int32 hp = 100;
+
+	UPROPERTY(EditAnywhere)
 	EPlayerType playerAnimType;
 
 	UPROPERTY(EditAnywhere)
