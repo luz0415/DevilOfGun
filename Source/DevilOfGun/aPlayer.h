@@ -45,6 +45,9 @@ public:
 	float sprintMoveSpeed;
 
 	UPROPERTY(EditAnywhere)
+	int32 hp = 100;
+
+	UPROPERTY(EditAnywhere)
 	EPlayerType playerAnimType;
 
 	UPROPERTY(EditAnywhere)
@@ -82,4 +85,6 @@ private:
 	bool isFire = false;
 	int fireCount = 1;
 	float moveRightValue;
+
+	int32 tmpHP = 100;
 };
