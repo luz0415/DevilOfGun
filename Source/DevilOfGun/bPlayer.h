@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "FPSProjectile.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "bPlayer.generated.h"
 
 UCLASS()
@@ -47,5 +48,5 @@ private:
 
 private:
 	UPROPERTY(EditAnywhere)
-	class UStaticMeshComponent* Mesh;
+	class USkeletalMeshComponent* Mesh;
 };

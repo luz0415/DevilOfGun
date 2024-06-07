@@ -4,6 +4,7 @@
 #include "bPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 
 // Sets default values
 AbPlayer::AbPlayer()
@@ -11,7 +12,7 @@ AbPlayer::AbPlayer()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("bPlayerSkeletal"));;
 	RootComponent = Mesh;
 
 	// Camera
