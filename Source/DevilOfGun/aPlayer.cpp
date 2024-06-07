@@ -6,6 +6,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/ArrowComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "DevilOfGun/DevilOfGunGameModeBase.h"
 #include "bPlayer.h"
 
 // Sets default values
@@ -37,6 +38,8 @@ AaPlayer::AaPlayer()
 void AaPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	tmpHP = hp;
 }
 
 // Called every frame
@@ -52,6 +55,12 @@ void AaPlayer::Tick(float DeltaTime)
 	AnimCtrl();
 
 	SetActorLocation(newLocation, true);
+
+	if (hp != tmpHP) {
+		ADevilOfGunGameModeBase* currentGameModeBase = Cast<ADevilOfGunGameModeBase>(GetWorld()->GetAuthGameMode());
+		currentGameModeBase->PlayerChangeHp(hp);
+		tmpHP = hp;
+	}
 }
 
 // Called to bind functionality to input
