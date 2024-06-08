@@ -4,6 +4,7 @@
 #include "FPSProjectile.h"
 #include "Enemy1.h"
 #include "EnemyFSM1.h"
+#include "Enemy2.h"
 
 // Sets default values
 AFPSProjectile::AFPSProjectile()
@@ -29,7 +30,7 @@ AFPSProjectile::AFPSProjectile()
 
 // Called when the game starts or when spawned
 void AFPSProjectile::BeginPlay()
-{
+{ 
 	Super::BeginPlay();
 
 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &AFPSProjectile::OnHit);
@@ -50,10 +51,13 @@ void AFPSProjectile::FireInDirection(const FVector& ShootDirection)
 void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponet, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	AEnemy1* Enemy1 = Cast<AEnemy1>(OtherActor);
-
+	AEnemy2* Enemy2 = Cast<AEnemy2>(OtherActor);
 	if (Enemy1 != nullptr)
 	{
-		Enemy1->TakeDamage(1);
+		Enemy1->TakeDamage(4);
+	}
+	else if (Enemy2 != nullptr) {
+		Enemy2->TakeDamage(4);
 	}
 
 	Destroy();
