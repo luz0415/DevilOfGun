@@ -17,6 +17,12 @@ class DEVILOFGUN_API ADevilOfGunGameModeBase : public AGameModeBase
 private:
 	float currentHp;
 	class UmainWidget* mainUI;
+<<<<<<< HEAD
+	class UdieWidget* dieUi;
+
+	void PrintMainUi();
+=======
+>>>>>>> parent of e99b560 (V0.2.4)
 	
 public:
 	ADevilOfGunGameModeBase();
@@ -38,5 +44,14 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UmainWidget> mainWidget;
 
+<<<<<<< HEAD
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UdieWidget> dieWidget;
+
+	void ShowDieWidget();
+
+	void PlayerChangeHp(int32 playerHp);
+=======
 	void changeHp(float hp);
+>>>>>>> parent of e99b560 (V0.2.4)
 };

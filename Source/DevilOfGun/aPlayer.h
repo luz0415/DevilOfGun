@@ -45,6 +45,9 @@ public:
 	float sprintMoveSpeed;
 
 	UPROPERTY(EditAnywhere)
+	int32 hp = 100;
+
+	UPROPERTY(EditAnywhere)
 	EPlayerType playerAnimType;
 
 	UPROPERTY(EditAnywhere)
@@ -77,6 +80,8 @@ private:
 	void AddbPlayerRollInput(float Val);
 	void AddbPlayerYawInput(float Val);
 	void Fire_A();
+
+	void ControlHp();
 
 	bool isSprint = false;
 	bool isFire = false;
