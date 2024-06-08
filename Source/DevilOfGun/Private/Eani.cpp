@@ -2,9 +2,19 @@
 
 
 #include "Eani.h"
+#include "../aPlayer.h"
 
 void UEani:: OnEndAttackAnimation()
 {
 	attackplay = false;
+}
+
+
+void UEani::OnAttackPlay()
+{
+	auto actor = GetWorld()->GetFirstPlayerController()->GetPawn();
+	target = Cast<AaPlayer>(actor);
+	//target->Destroy();
+	//여기 player 데미지 감소 함수
 }
 
