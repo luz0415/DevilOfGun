@@ -48,6 +48,9 @@ public:
 	int32 hp = 100;
 
 	UPROPERTY(EditAnywhere)
+	bool bPlayerAttacked = true;
+
+	UPROPERTY(EditAnywhere)
 	EPlayerType playerAnimType;
 
 	UPROPERTY(EditAnywhere)
@@ -80,13 +83,18 @@ private:
 	void AddbPlayerRollInput(float Val);
 	void AddbPlayerYawInput(float Val);
 	void Fire_A();
+	void ResetbPlayerAttacked();
 
 	void ControlHp();
 
 	bool isSprint = false;
 	bool isFire = false;
 	int fireCount = 1;
+	float effectSpeed = 10;
 	float moveRightValue;
+
+	bool fTimerStart = false;
+	FTimerHandle bPlayerAttackedHandle;
 	
 	int32 tmpHP = 100;
 };

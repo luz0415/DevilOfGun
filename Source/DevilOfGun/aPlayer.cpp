@@ -7,6 +7,7 @@
 #include "Components/ArrowComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "DevilOfGun/DevilOfGunGameModeBase.h"
+#include "TimerManager.h"
 #include "bPlayer.h"
 
 // Sets default values
@@ -56,6 +57,12 @@ void AaPlayer::Tick(float DeltaTime)
 
 	SetActorLocation(newLocation, true);
 
+	fTimerStart = GetWorldTimerManager().IsTimerActive(bPlayerAttackedHandle);
+
+	if (fTimerStart == false && bPlayerAttacked == false) {
+		body->SetVectorParameterValueOnMaterials(TEXT("Color"), FVector(0, 0, 0));
+		GetWorldTimerManager().SetTimer(bPlayerAttackedHandle, this, &AaPlayer::ResetbPlayerAttacked, 5.0f, true);
+	}
 	ControlHp();
 }
 
@@ -114,6 +121,12 @@ void AaPlayer::Fire_A()
 	bPlayer->Fire();
 }
 
+void AaPlayer::ResetbPlayerAttacked() {
+	bPlayerAttacked = true;
+	GetWorldTimerManager().ClearTimer(bPlayerAttackedHandle);
+	body->SetVectorParameterValueOnMaterials(TEXT("Color"), FVector(1, 1, 1));
+}
+
 
 void AaPlayer::JumpStart() {
 	bPressedJump = true;
@@ -151,14 +164,19 @@ void AaPlayer::AnimCtrl() {
 
 void AaPlayer::ControlHp() {
 	if (hp != tmpHP) {
-		tmpHP = hp;
-		ADevilOfGunGameModeBase* currentGameModeBase = Cast<ADevilOfGunGameModeBase>(GetWorld()->GetAuthGameMode());
-		if (hp <= 0) {
-			currentGameModeBase->ShowDieWidget();
-			Destroy();
+		if (bPlayerAttacked == true) {
+			tmpHP = hp;
+			ADevilOfGunGameModeBase* currentGameModeBase = Cast<ADevilOfGunGameModeBase>(GetWorld()->GetAuthGameMode());
+			if (hp <= 0) {
+				currentGameModeBase->ShowDieWidget();
+				Destroy();
+			}
+			else {
+				currentGameModeBase->PlayerChangeHp(hp);
+			}
 		}
 		else {
-			currentGameModeBase->PlayerChangeHp(hp);
+			hp = tmpHP;
 		}
 	}
 }
