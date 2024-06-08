@@ -4,6 +4,7 @@
 #include "DevilOfGunGameModeBase.h"
 #include "Blueprint/UserWidget.h"
 #include "MainWidget.h"
+#include "dieWidget.h"
 #include "Components/TextBlock.h"
 #include "Components/ProgressBar.h"
 #include "Kismet/GameplayStatics.h"
@@ -45,6 +46,22 @@ void ADevilOfGunGameModeBase::StartPlay()
 
         if (mainUI != nullptr) {
             mainUI->AddToViewport();
+        }
+    }
+}
+
+void ADevilOfGunGameModeBase::ShowDieWidget() {
+    if (dieWidget != nullptr) {
+        dieUi = CreateWidget<UdieWidget>(GetWorld(), dieWidget);
+
+
+        if (dieUi != nullptr) {
+            mainUI->RemoveFromViewport();
+            dieUi->AddToViewport();
+
+            UGameplayStatics::SetGamePaused(GetWorld(), true);
+
+            GetWorld()->GetFirstPlayerController()->SetShowMouseCursor(true);
         }
     }
 }
