@@ -38,6 +38,7 @@ protected:
 	class UAnimMontage* GetHitMontage;
 
 public:
+	virtual void TakeDamage(float damage) override;
 	void AttackHitCheck();
 
 // Weakness Section
@@ -56,6 +57,7 @@ private:
 	UPROPERTY(EditAnywhere)
 	float attackDamage = 15;
 	
+	uint8 bIsWeaknessExist : 1;
 	uint8 bIsAttackBegun : 1;
 	uint8 bIsTurning : 1;
 	uint8 bIsAttacking : 1;

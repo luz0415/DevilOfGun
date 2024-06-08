@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "IDamagable.h"
 #include "Enemy1.generated.h"
 
 UCLASS()
-class DEVILOFGUN_API AEnemy1 : public ACharacter
+class DEVILOFGUN_API AEnemy1 : public ACharacter, public IIDamagable
 {
 	GENERATED_BODY()
 
@@ -36,5 +37,5 @@ public:
 	UPROPERTY(EditAnywhere)
 	FString name = "basic";
 
-	void TakeDamage(float damage);
+	virtual void TakeDamage(float damage) override;
 };

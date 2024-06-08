@@ -6,6 +6,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/BoxComponent.h"
 #include "IDamagable.h"
+#include "Components/CapsuleComponent.h"
 #include "../aPlayer.h"
 
 AKraken::AKraken()
@@ -29,6 +30,7 @@ void AKraken::BeginPlay()
 {
 	Super::BeginPlay();
 
+	bIsWeaknessExist = false;
 	bIsAttackBegun = false;
 	bIsTurning = false;
 	bIsAttackSpecial = false;
@@ -54,6 +56,7 @@ void AKraken::Tick(float DeltaTime)
 			if (bIsAttackSpecial)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Special Attack"));
+				bIsAttacking = true;
 				GetWorld()->GetTimerManager().SetTimer(specialAttackTimer, this, &AKraken::SpecialAttack, 10.0f, false);
 			}
 			else 
@@ -68,6 +71,8 @@ void AKraken::Tick(float DeltaTime)
 
 void AKraken::CreateWeaknesses(int count)
 {
+	bIsWeaknessExist = true;
+	GetCapsuleComponent()->SetCollisionProfileName("NoCollision");
 	TArray<int32> randNums;
 
 	for (int32 i = 0; i < count; ++i)
@@ -75,17 +80,19 @@ void AKraken::CreateWeaknesses(int count)
 		int32 rand;
 		do
 		{
-			rand = FMath::RandRange(1, 11);
+			rand = FMath::RandRange(1, 10);
 		} while (randNums.Contains(rand));
 		randNums.Add(rand);
 	}
-
+	UE_LOG(LogTemp, Warning, TEXT("Weakness Count: %d"), count);
 	for (int i = 0; i < count; i++) 
 	{
 		int randomIndex = randNums[i];
 		FName socketName = FName("WeaknessSocket" + FString::FromInt(randomIndex));
-		UKrakenWeakness* newWeakness = GetWorld()->SpawnActor<UKrakenWeakness>(weaknessMeshComp, GetActorLocation(), GetActorRotation());
+		UE_LOG(LogTemp, Warning, TEXT("SocketName: %s"), *socketName.ToString());
+		UKrakenWeakness* newWeakness = NewObject<UKrakenWeakness>(this, weaknessMeshComp);
 		newWeakness->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, socketName);
+		newWeakness->RegisterComponent();
 		weaknesses.Add(newWeakness);
 	}
 }
@@ -102,14 +109,26 @@ void AKraken::HitWeakness(UKrakenWeakness* weakness)
 
 void AKraken::HitAllWeaknesses()
 {
+	bIsWeaknessExist = false;
+	GetCapsuleComponent()->SetCollisionProfileName("Enemy");
 	GetWorld()->GetTimerManager().ClearTimer(specialAttackTimer);
 	
+	if(weaknesses.Num() != 0)
+	{
+		for (int i = 0; i < weaknesses.Num(); i++)
+		{
+			weaknesses[i]->DestroyComponent();
+		}
+		weaknesses.Empty();
+
+		return;
+	}
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 	if (AnimInstance)
 	{
 		AnimInstance->Montage_Play(GetHitMontage, 1.0f);
 		FOnMontageEnded GetHitEnd;
-		GetHitEnd.BindLambda([this](UAnimMontage* Montage, bool bInterrupted) { bIsTurning = bIsAttackBegun = bIsAttacking = false; });
+		GetHitEnd.BindLambda([this](UAnimMontage* Montage, bool bInterrupted) { bIsWeaknessExist = bIsTurning = bIsAttackBegun = bIsAttacking = false; GetWorld()->GetTimerManager().ClearTimer(attackReadyTimer); });
 		AnimInstance->Montage_SetEndDelegate(GetHitEnd, GetHitMontage);
 	}
 }
@@ -152,13 +171,22 @@ void AKraken::AttackReady()
 
 void AKraken::SpecialAttack()
 {
-	bIsAttacking = true;
+	HitAllWeaknesses();
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 	if (AnimInstance)
 	{
 		AnimInstance->Montage_Play(SpecialAttackMontage, 1.0f);
 		FOnMontageEnded AttackEnd;
-		AttackEnd.BindLambda([this](UAnimMontage* Montage, bool bInterrupted) { bIsAttackBegun = bIsAttacking = false; });
+		AttackEnd.BindLambda([this](UAnimMontage* Montage, bool bInterrupted) {
+			bIsAttackBegun = bIsAttacking = false;
+			GetWorld()->GetTimerManager().ClearTimer(attackReadyTimer);
+			player = GetWorld()->GetFirstPlayerController()->GetPawn();
+			IIDamagable* damagable = Cast<IIDamagable>(player);
+			if (damagable)
+			{
+				damagable->TakeDamage(attackDamage);
+			}
+			});
 		AnimInstance->Montage_SetEndDelegate(AttackEnd, SpecialAttackMontage);
 	}
 }
@@ -188,6 +216,17 @@ void AKraken::BaseAttack()
 			UE_LOG(LogTemp, Warning, TEXT("Attack Montage End")); GetWorld()->GetTimerManager().ClearTimer(attackReadyTimer); bIsAttackBegun = bIsAttacking = false; });
 		AnimInstance->Montage_SetEndDelegate(AttackEnd, AttackMontage);
 	}
+}
+
+void AKraken::TakeDamage(float damage)
+{
+	if (bIsWeaknessExist) { return; }
+	currentHP -= damage;
+	if (currentHP <= 0)
+	{
+		Destroy();
+	}
+	UE_LOG(LogTemp, Warning, TEXT("HP: %f"), currentHP);
 }
 
 void AKraken::AttackHitCheck()
