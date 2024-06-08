@@ -87,4 +87,6 @@ private:
 	bool isFire = false;
 	int fireCount = 1;
 	float moveRightValue;
+	
+	int32 tmpHP = 100;
 };
