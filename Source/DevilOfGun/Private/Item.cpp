@@ -48,6 +48,8 @@ void AItem::OnItemOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Othe
 				Destroy();
 				break;
 			case 1:
+				player->bPlayerAttacked = false;
+				Destroy();
 				break;
 			case 2:
 				break;
