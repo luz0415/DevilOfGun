@@ -16,6 +16,7 @@ class DEVILOFGUN_API ADevilOfGunGameModeBase : public AGameModeBase
 
 private:
 	int32 playerHp = 100;
+	int32 score = 0;
 	int32 playerMaxHp = 100;
 	float currentHp;
 	class UmainWidget* mainUI;
@@ -48,6 +49,8 @@ public:
 
 	void ShowDieWidget();
 
-	void PlayerChangeHp(int32 playerHp);
+	void PlayerChangeHp(int32 IPlayerHp);
+	void ChaneScore(int32 currentScore);
 	void changeHp(float hp);
+	void SetPlayerHpBarControl(bool check);
 };

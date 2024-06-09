@@ -70,10 +70,27 @@ void ADevilOfGunGameModeBase::PrintMainUi() {
     if (mainUI != nullptr) {
         mainUI->playerHpBar->SetPercent(((float)playerHp / (float)playerMaxHp));
         mainUI->playerHpText->SetText(FText::AsNumber(playerHp));
+        mainUI->scoreText->SetText(FText::AsNumber(score));
     }
+}
+
+void ADevilOfGunGameModeBase::ChaneScore(int32 currentScore) {
+    score = currentScore;
+    PrintMainUi();
 }
 
 void ADevilOfGunGameModeBase::PlayerChangeHp(int32 IPlayerHp) {
     playerHp = IPlayerHp;
+    PrintMainUi();
+}
+
+void ADevilOfGunGameModeBase::SetPlayerHpBarControl(bool check) {
+    if (check) {
+        mainUI->playerHpBar->SetFillColorAndOpacity(FVector(1, 0, 1));
+    }
+
+    else {
+        mainUI->playerHpBar->SetFillColorAndOpacity(FVector(1, 1, 1));
+    }
     PrintMainUi();
 }

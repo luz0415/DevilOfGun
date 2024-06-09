@@ -48,6 +48,9 @@ public:
 	int32 hp = 100;
 
 	UPROPERTY(EditAnywhere)
+	int32 score = 0;
+
+	UPROPERTY(EditAnywhere)
 	bool bPlayerAttacked = true;
 
 	UPROPERTY(EditAnywhere)
@@ -86,15 +89,17 @@ private:
 	void ResetbPlayerAttacked();
 
 	void ControlHp();
+	void ControScore();
 
 	bool isSprint = false;
 	bool isFire = false;
 	int fireCount = 1;
-	float effectSpeed = 10;
+	float skillDuration = 5.0f;
 	float moveRightValue;
 
 	bool fTimerStart = false;
 	FTimerHandle bPlayerAttackedHandle;
 	
 	int32 tmpHP = 100;
+	int32 tmpScore = 0;
 };
