@@ -8,6 +8,8 @@
 #include "IDamagable.h"
 #include "Components/CapsuleComponent.h"
 #include "../aPlayer.h"
+#include "LevelSequencePlayer.h"
+#include "../DevilOfGunGameModeBase.h"
 
 AKraken::AKraken()
 {
@@ -35,11 +37,13 @@ void AKraken::BeginPlay()
 	bIsTurning = false;
 	bIsAttackSpecial = false;
 	bIsAttacking = false;
+	bIsDead = false;
 }
 
 void AKraken::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if(bIsDead) { return; }
 	if (!bIsAttackBegun) 
 	{
 		if(!attackReadyTimer.IsValid())
@@ -220,11 +224,11 @@ void AKraken::BaseAttack()
 
 void AKraken::TakeDamage(float damage)
 {
-	if (bIsWeaknessExist) { return; }
+	if (bIsWeaknessExist || bIsDead) { return; }
 	currentHP -= damage;
 	if (currentHP <= 0)
 	{
-		Destroy();
+		OnDeath();
 	}
 	UE_LOG(LogTemp, Warning, TEXT("HP: %f"), currentHP);
 }
@@ -239,6 +243,31 @@ void AKraken::AttackHitCheck()
 			attackBox->SetCollisionProfileName("NoCollision");
 	});
 	GetWorld()->GetTimerManager().SetTimer(overlapTimer, TimerDelegate, 0.5f, false);
+}
+
+void AKraken::OnDeath()
+{
+	bIsDead = true;
+	GetWorld()->GetTimerManager().ClearTimer(attackReadyTimer);
+	GetWorld()->GetTimerManager().ClearTimer(attackTimer);
+	GetWorld()->GetTimerManager().ClearTimer(specialAttackTimer);
+	GetWorld()->GetTimerManager().ClearTimer(TurnTimer);
+
+	ADevilOfGunGameModeBase* gameMode = GetWorld()->GetAuthGameMode<ADevilOfGunGameModeBase>();
+	gameMode->CloseWidget();
+	gameMode->SetCameraOne();
+
+	FStringAssetReference SequenceName("/Game/Levels/KrakenDieSequence.KrakenDieSequence");
+	ULevelSequence* Asset = Cast<ULevelSequence>(SequenceName.TryLoad());
+	ALevelSequenceActor* LevelSequenceActor;
+	KrakenDieSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(this, Asset, FMovieSceneSequencePlaybackSettings(), LevelSequenceActor);
+	KrakenDieSequencePlayer->Play();
+
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance)
+	{
+		AnimInstance->Montage_Play(DieMontage, 1.0f);
+	}
 }
 
 void AKraken::Turn()

@@ -36,10 +36,19 @@ protected:
 	class UAnimMontage* AttackMontage;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animation)
 	class UAnimMontage* GetHitMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animation)
+	class UAnimMontage* DieMontage;
 
 public:
 	virtual void TakeDamage(float damage) override;
 	void AttackHitCheck();
+
+protected:
+	uint8 bIsDead : 1;
+	virtual void OnDeath() override;
+
+private:
+	class ULevelSequencePlayer* KrakenDieSequencePlayer;
 
 // Weakness Section
 private:

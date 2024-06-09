@@ -11,6 +11,7 @@
 #include "GameFramework/PlayerController.h"
 #include "aPlayer.h"
 #include "bPlayer.h"
+#include "Engine/LocalPlayer.h"
 
 ADevilOfGunGameModeBase::ADevilOfGunGameModeBase()
 {
@@ -23,22 +24,21 @@ void ADevilOfGunGameModeBase::StartPlay()
     //UGameplayStatics::SetPlayerControllerID(Cast<AaPlayerController>(aPlayerController), 0);
     //UGameplayStatics::SetPlayerControllerID(Cast<AaPlayerController>(bPlayerController), 1);
 
-    APlayerController* A = GetWorld()->GetFirstPlayerController();
+    aPlayerController = GetWorld()->GetFirstPlayerController();
     AaPlayer* aPlayerInGame = GetWorld()->SpawnActor<AaPlayer>(aPlayer, FVector(0, 0, 0), FRotator(0, 0, 0));
-    if (A)
+    if (aPlayerController)
     {
-		A->Possess(aPlayerInGame);
+        aPlayerController->Possess(aPlayerInGame);
 	}
 
-    APlayerController* B = UGameplayStatics::CreatePlayer(GetWorld(), 1, true);
+    bPlayerController = UGameplayStatics::CreatePlayer(GetWorld(), 1, true);
 
     AbPlayer* bPlayerInGame = GetWorld()->SpawnActor<AbPlayer>(bPlayer, FVector(30, 45, 125), FRotator(0, 0, 0));
     bPlayerInGame->AttachToActor(aPlayerInGame, FAttachmentTransformRules::KeepRelativeTransform);
     aPlayerInGame->bPlayer = bPlayerInGame;
-    if (B)
+    if (bPlayerController)
     {
-		B->Possess(bPlayerInGame);
-        B->InitInputSystem();
+        bPlayerController->Possess(bPlayerInGame);
 	}
 
     if (mainWidget != nullptr) {
@@ -76,4 +76,16 @@ void ADevilOfGunGameModeBase::PrintMainUi() {
 void ADevilOfGunGameModeBase::PlayerChangeHp(int32 IPlayerHp) {
     playerHp = IPlayerHp;
     PrintMainUi();
+}
+
+void ADevilOfGunGameModeBase::CloseWidget()
+{
+    if (mainUI != nullptr) {
+        mainUI->RemoveFromViewport();
+	}
+}
+
+void ADevilOfGunGameModeBase::SetCameraOne()
+{
+    UGameplayStatics::RemovePlayer(bPlayerController, false);
 }
