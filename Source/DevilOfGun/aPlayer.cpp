@@ -60,10 +60,12 @@ void AaPlayer::Tick(float DeltaTime)
 	fTimerStart = GetWorldTimerManager().IsTimerActive(bPlayerAttackedHandle);
 
 	if (fTimerStart == false && bPlayerAttacked == false) {
-		body->SetVectorParameterValueOnMaterials(TEXT("Color"), FVector(0, 0, 0));
-		GetWorldTimerManager().SetTimer(bPlayerAttackedHandle, this, &AaPlayer::ResetbPlayerAttacked, 5.0f, true);
+		GetWorldTimerManager().SetTimer(bPlayerAttackedHandle, this, &AaPlayer::ResetbPlayerAttacked, skillDuration, true);
+		ADevilOfGunGameModeBase* currentGameModeBase = Cast<ADevilOfGunGameModeBase>(GetWorld()->GetAuthGameMode());
+		currentGameModeBase->SetPlayerHpBarControl(true);
 	}
 	ControlHp();
+	ControScore();
 }
 
 // Called to bind functionality to input
@@ -117,14 +119,14 @@ void AaPlayer::AddbPlayerYawInput(float Val)
 
 void AaPlayer::Fire_A()
 {
-	hp -= 10;
 	bPlayer->Fire();
 }
 
 void AaPlayer::ResetbPlayerAttacked() {
 	bPlayerAttacked = true;
 	GetWorldTimerManager().ClearTimer(bPlayerAttackedHandle);
-	body->SetVectorParameterValueOnMaterials(TEXT("Color"), FVector(1, 1, 1));
+	ADevilOfGunGameModeBase* currentGameModeBase = Cast<ADevilOfGunGameModeBase>(GetWorld()->GetAuthGameMode());
+	currentGameModeBase->SetPlayerHpBarControl(false);
 }
 
 
@@ -160,6 +162,19 @@ void AaPlayer::AnimCtrl() {
 	else if (moveRightValue == 0) {
 		playerAnimType = EPlayerType::TE_OptionA;
 	}
+}
+
+void AaPlayer::ControScore() {
+	if (score != tmpScore) {
+		tmpScore = score;
+		ADevilOfGunGameModeBase* currentGameModeBase = Cast<ADevilOfGunGameModeBase>(GetWorld()->GetAuthGameMode());
+		currentGameModeBase->ChaneScore(score);
+	}
+}
+void AaPlayer::TakeDamage(float damage)
+{
+	hp -= damage;
+	ControlHp();
 }
 
 void AaPlayer::ControlHp() {

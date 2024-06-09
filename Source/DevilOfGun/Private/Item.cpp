@@ -52,6 +52,13 @@ void AItem::OnItemOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Othe
 				Destroy();
 				break;
 			case 2:
+				player->score += 50;
+				Destroy();
+				break;
+			case 3:
+				player->bPlayerAttacked = true;
+				player->hp -= 100;
+				Destroy();
 				break;
 		}
 	}

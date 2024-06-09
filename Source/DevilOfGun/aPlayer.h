@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Animation/AnimInstance.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "IDamagable.h"
 #include "aPlayer.generated.h"
 
 UENUM()
@@ -18,7 +19,7 @@ enum class EPlayerType : uint8 {
 };
 
 UCLASS()
-class DEVILOFGUN_API AaPlayer : public ACharacter
+class DEVILOFGUN_API AaPlayer : public ACharacter, public IIDamagable
 {
 	GENERATED_BODY()
 
@@ -46,6 +47,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	int32 hp = 100;
+
+	UPROPERTY(EditAnywhere)
+	int32 score = 0;
 
 	UPROPERTY(EditAnywhere)
 	bool bPlayerAttacked = true;
@@ -85,16 +89,22 @@ private:
 	void Fire_A();
 	void ResetbPlayerAttacked();
 
+// IDamagable Interface
+public:
+	virtual void TakeDamage(float damage) override;
+private:
 	void ControlHp();
+	void ControScore();
 
 	bool isSprint = false;
 	bool isFire = false;
 	int fireCount = 1;
-	float effectSpeed = 10;
+	float skillDuration = 5.0f;
 	float moveRightValue;
 
 	bool fTimerStart = false;
 	FTimerHandle bPlayerAttackedHandle;
 	
 	int32 tmpHP = 100;
+	int32 tmpScore = 0;
 };

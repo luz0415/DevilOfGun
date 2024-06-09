@@ -16,10 +16,14 @@ class DEVILOFGUN_API ADevilOfGunGameModeBase : public AGameModeBase
 
 private:
 	int32 playerHp = 100;
+	int32 score = 0;
 	int32 playerMaxHp = 100;
 	float currentHp;
 	class UmainWidget* mainUI;
 	class UdieWidget* dieUi;
+
+	class APlayerController* aPlayerController;
+	class APlayerController* bPlayerController;
 
 	void PrintMainUi();
 	
@@ -35,12 +39,6 @@ public:
 	TSubclassOf<class APawn> bPlayer;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<class APlayerController> aPlayerController;
-
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<class APlayerController> bPlayerController;
-
-	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UmainWidget> mainWidget;
 
 	UPROPERTY(EditAnywhere)
@@ -48,6 +46,9 @@ public:
 
 	void ShowDieWidget();
 
-	void PlayerChangeHp(int32 playerHp);
-	void changeHp(float hp);
+	void PlayerChangeHp(int32 IPlayerHp);
+	void ChaneScore(int32 currentScore);
+	void SetPlayerHpBarControl(bool check);
+	void CloseWidget();
+	void SetCameraOne();
 };
