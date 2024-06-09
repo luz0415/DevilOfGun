@@ -3,6 +3,8 @@
 
 #include "Item.h"
 #include "DevilOfGun/aPlayer.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "Components/BoxComponent.h"
 #include "Components/MeshComponent.h"
 
@@ -59,6 +61,14 @@ void AItem::OnItemOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Othe
 				player->bPlayerAttacked = true;
 				player->hp -= 100;
 				Destroy();
+				break;
+			case 4:
+				if (GetWorld()->GetMapName().Contains("Stage_1")) {
+					UGameplayStatics::OpenLevel(GetWorld(), "Stage_2");
+				}
+				else if (GetWorld()->GetMapName().Contains("Stage_2")) {
+					UGameplayStatics::OpenLevel(GetWorld(), "BossStage");
+				}
 				break;
 		}
 	}
