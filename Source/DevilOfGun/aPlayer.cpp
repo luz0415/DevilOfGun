@@ -117,7 +117,6 @@ void AaPlayer::AddbPlayerYawInput(float Val)
 
 void AaPlayer::Fire_A()
 {
-	hp -= 10;
 	bPlayer->Fire();
 }
 
@@ -160,6 +159,12 @@ void AaPlayer::AnimCtrl() {
 	else if (moveRightValue == 0) {
 		playerAnimType = EPlayerType::TE_OptionA;
 	}
+}
+
+void AaPlayer::TakeDamage(float damage)
+{
+	hp -= damage;
+	ControlHp();
 }
 
 void AaPlayer::ControlHp() {

@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "IDamagable.h"
 #include "Enemy2.generated.h"
 
 UCLASS()
-class DEVILOFGUN_API AEnemy2 : public AActor
+class DEVILOFGUN_API AEnemy2 : public AActor, public IIDamagable
 {
 	GENERATED_BODY()
 	
@@ -40,7 +41,7 @@ public:
 	float dt[2] = { 1,1 };
 	float timer = 0;
 
-	void TakeDamage(float);
+	virtual void TakeDamage(float damage) override;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class AEbullet> bulletFactory;
