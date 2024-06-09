@@ -57,11 +57,17 @@ void AbPlayer::AddControllerYawInput(float Val)
 	Super::AddControllerYawInput(Val);
 }
 
+void AbPlayer::Delay()
+{
+	FireDelay = false;
+}
 
 void AbPlayer::Fire()
 {
-	if (ProjectileClass)
+	if (ProjectileClass && Ammo != 0 && !FireDelay)
 	{
+		FireDelay = true;
+
 		FVector CameraLocation;
 		FRotator CameraRotation;
 		CameraLocation = GetActorLocation();
@@ -86,6 +92,19 @@ void AbPlayer::Fire()
 				Projectile->FireInDirection(LaunchDirection);
 			}
 		}
+		Ammo -= 1;
+		//GetWorld()->GetTimerManager().SetTimer(timer_fire, this, &AbPlayer::Fire, 0.1f, true);
+		GetWorld()->GetTimerManager().SetTimer(timer_delay, this, &AbPlayer::Delay, 0.3f, false);
 	}
 }
 
+void AbPlayer::isFire()
+{
+	isFiring = true;
+	Fire();
+}
+
+void AbPlayer::stopFire()
+{
+	isFiring = false;
+}

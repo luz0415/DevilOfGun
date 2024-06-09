@@ -32,12 +32,25 @@ public:
 	virtual void AddControllerYawInput(float Val) override;
 	
 	void Fire();
+	void isFire();
+	void stopFire();
+	void Delay();
+
+	FTimerHandle timer_delay;
+	FTimerHandle timer_fire;
 
 	UPROPERTY(EditAnywhere, BluePrintReadWrite, Category = "GamePlay")
 		FVector MuzzleOffset;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 		TSubclassOf<AFPSProjectile> ProjectileClass;
+
+	int Max_Ammo = 50;
+	int Ammo = Max_Ammo;
+
+	bool isFiring = false;
+	bool FireDelay = false;
+	bool ReLoding = false;
 
 // Camera Section
 private:
