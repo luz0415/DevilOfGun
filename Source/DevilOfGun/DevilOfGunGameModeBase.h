@@ -48,9 +48,7 @@ public:
 
 	void PlayerChangeHp(int32 IPlayerHp);
 	void ChaneScore(int32 currentScore);
-	void changeHp(float hp);
 	void SetPlayerHpBarControl(bool check);
-	void PlayerChangeHp(int32 playerHp);
 	void CloseWidget();
 	void SetCameraOne();
 };

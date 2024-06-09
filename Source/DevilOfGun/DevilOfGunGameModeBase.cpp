@@ -93,6 +93,7 @@ void ADevilOfGunGameModeBase::SetPlayerHpBarControl(bool check) {
         mainUI->playerHpBar->SetFillColorAndOpacity(FVector(1, 1, 1));
     }
     PrintMainUi();
+}
 void ADevilOfGunGameModeBase::CloseWidget()
 {
     if (mainUI != nullptr) {

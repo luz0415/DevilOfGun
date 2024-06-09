@@ -170,6 +170,7 @@ void AaPlayer::ControScore() {
 		ADevilOfGunGameModeBase* currentGameModeBase = Cast<ADevilOfGunGameModeBase>(GetWorld()->GetAuthGameMode());
 		currentGameModeBase->ChaneScore(score);
 	}
+}
 void AaPlayer::TakeDamage(float damage)
 {
 	hp -= damage;
