@@ -22,6 +22,9 @@ private:
 	class UmainWidget* mainUI;
 	class UdieWidget* dieUi;
 
+	class APlayerController* aPlayerController;
+	class APlayerController* bPlayerController;
+
 	void PrintMainUi();
 	
 public:
@@ -36,12 +39,6 @@ public:
 	TSubclassOf<class APawn> bPlayer;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<class APlayerController> aPlayerController;
-
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<class APlayerController> bPlayerController;
-
-	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UmainWidget> mainWidget;
 
 	UPROPERTY(EditAnywhere)
@@ -53,4 +50,7 @@ public:
 	void ChaneScore(int32 currentScore);
 	void changeHp(float hp);
 	void SetPlayerHpBarControl(bool check);
+	void PlayerChangeHp(int32 playerHp);
+	void CloseWidget();
+	void SetCameraOne();
 };

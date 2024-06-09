@@ -119,7 +119,6 @@ void AaPlayer::AddbPlayerYawInput(float Val)
 
 void AaPlayer::Fire_A()
 {
-	hp -= 10;
 	bPlayer->Fire();
 }
 
@@ -171,6 +170,10 @@ void AaPlayer::ControScore() {
 		ADevilOfGunGameModeBase* currentGameModeBase = Cast<ADevilOfGunGameModeBase>(GetWorld()->GetAuthGameMode());
 		currentGameModeBase->ChaneScore(score);
 	}
+void AaPlayer::TakeDamage(float damage)
+{
+	hp -= damage;
+	ControlHp();
 }
 
 void AaPlayer::ControlHp() {
