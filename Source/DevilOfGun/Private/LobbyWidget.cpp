@@ -16,7 +16,7 @@ void ULobbyWidget::NativeConstruct()
 
 void ULobbyWidget::StartGame()
 {
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("GameLevel"));
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("Stage_1"));
 }
 
 void ULobbyWidget::OpenSetting()
