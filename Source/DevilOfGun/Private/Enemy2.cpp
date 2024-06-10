@@ -87,6 +87,7 @@ void AEnemy2::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrim
 	AaPlayer* aplayer = Cast<AaPlayer>(OtherActor);
 	if (aplayer != nullptr)
 	{
+		aplayer->TakeDamage(5);
 		//플레이어 hp 감소
 	}
 	//Destroy();
