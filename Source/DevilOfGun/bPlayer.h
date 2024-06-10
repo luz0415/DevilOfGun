@@ -45,12 +45,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 		TSubclassOf<AFPSProjectile> ProjectileClass;
 
-	int Max_Ammo = 50;
-	int Ammo = Max_Ammo;
-
 	bool isFiring = false;
 	bool FireDelay = false;
-	bool ReLoding = false;
 
 // Camera Section
 private:

@@ -85,7 +85,8 @@ void AaPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("LookUp", this, &AaPlayer::AddbPlayerRollInput);
 	PlayerInputComponent->BindAxis("Turn", this, &AaPlayer::AddbPlayerYawInput);
 
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AaPlayer::Fire_A);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AaPlayer::isFire_A);
+	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AaPlayer::stopFire_A);
 }
 
 void AaPlayer::SetMoveHorizontal(float value) {
@@ -117,9 +118,14 @@ void AaPlayer::AddbPlayerYawInput(float Val)
 	bPlayer->AddControllerYawInput(Val);
 }
 
-void AaPlayer::Fire_A()
+void AaPlayer::isFire_A()
 {
-	bPlayer->Fire();
+	bPlayer->isFire();
+}
+
+void AaPlayer::stopFire_A()
+{
+	bPlayer->stopFire();
 }
 
 void AaPlayer::ResetbPlayerAttacked() {
