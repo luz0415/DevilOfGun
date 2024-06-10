@@ -44,7 +44,7 @@ void AEbullet::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPri
 	AaPlayer* aplayer = Cast<AaPlayer>(OtherActor);
 	if (aplayer != nullptr)
 	{
-		//플레이어 hp 감소
+		aplayer->TakeDamage(5);
 	}
 
 	this->Destroy();
