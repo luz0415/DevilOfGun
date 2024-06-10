@@ -6,6 +6,7 @@
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "StartLevelGameModeBase.h"
+#include "EndLevelGameMode.h"
 
 void UDialogueWidget::NativeConstruct()
 {
@@ -40,6 +41,14 @@ void UDialogueWidget::NextDialogue()
 			gameMode->SkipFrame(dialogueStartFrames[dialogueIndex]);
 			gameMode->ResumeSequencer();
 		}
+
+		AEndLevelGameMode* endGameMode = Cast<AEndLevelGameMode>(GetWorld()->GetAuthGameMode());
+		if (endGameMode != nullptr)
+		{
+			endGameMode->SkipFrame(dialogueStartFrames[dialogueIndex]);
+			endGameMode->ResumeSequencer();
+		}
+
 		mouseImage->SetVisibility(ESlateVisibility::Hidden);
 		bIsDialogueFinished = false;
 		dialogueText->SetText(FText::FromString(""));
@@ -51,6 +60,13 @@ void UDialogueWidget::NextDialogue()
 		if (gameMode != nullptr)
 		{
 			gameMode->SkipCinematic();
+			return;
+		}
+
+		AEndLevelGameMode* endGameMode = Cast<AEndLevelGameMode>(GetWorld()->GetAuthGameMode());
+		if (endGameMode != nullptr)
+		{
+			endGameMode->SkipCinematic();
 			return;
 		}
 	}
