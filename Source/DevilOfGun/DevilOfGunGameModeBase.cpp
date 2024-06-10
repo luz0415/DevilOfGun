@@ -21,17 +21,17 @@ ADevilOfGunGameModeBase::ADevilOfGunGameModeBase()
 void ADevilOfGunGameModeBase::StartPlay()
 {
     Super::StartPlay();
-    //UGameplayStatics::SetPlayerControllerID(Cast<AaPlayerController>(aPlayerController), 0);
-    //UGameplayStatics::SetPlayerControllerID(Cast<AaPlayerController>(bPlayerController), 1);
+    UE_LOG(LogTemp, Warning, TEXT("StartPlay"));
 
     aPlayerController = GetWorld()->GetFirstPlayerController();
     AaPlayer* aPlayerInGame = GetWorld()->SpawnActor<AaPlayer>(aPlayer, FVector(0, 0, 0), FRotator(0, 0, 0));
     if (aPlayerController)
     {
         aPlayerController->Possess(aPlayerInGame);
-	}
+    }
 
-    bPlayerController = UGameplayStatics::CreatePlayer(GetWorld(), 1, true);
+    if (GetNumPlayers() < 2) bPlayerController = UGameplayStatics::CreatePlayer(GetWorld(), 1, true);
+    else bPlayerController = UGameplayStatics::GetPlayerController(this, 1);
 
     AbPlayer* bPlayerInGame = GetWorld()->SpawnActor<AbPlayer>(bPlayer, FVector(30, 45, 125), FRotator(0, 0, 0));
     bPlayerInGame->AttachToActor(aPlayerInGame, FAttachmentTransformRules::KeepRelativeTransform);
@@ -39,7 +39,7 @@ void ADevilOfGunGameModeBase::StartPlay()
     if (bPlayerController)
     {
         bPlayerController->Possess(bPlayerInGame);
-	}
+    }
 
     if (mainWidget != nullptr) {
         mainUI = CreateWidget<UmainWidget>(GetWorld(), mainWidget);
