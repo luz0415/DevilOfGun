@@ -46,6 +46,8 @@ public:
 protected:
 	uint8 bIsDead : 1;
 	virtual void OnDeath() override;
+	UFUNCTION()
+	void LoadEndLevel();
 
 private:
 	class ULevelSequencePlayer* KrakenDieSequencePlayer;

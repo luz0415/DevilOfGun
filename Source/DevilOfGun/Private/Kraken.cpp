@@ -262,12 +262,18 @@ void AKraken::OnDeath()
 	ALevelSequenceActor* LevelSequenceActor;
 	KrakenDieSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(this, Asset, FMovieSceneSequencePlaybackSettings(), LevelSequenceActor);
 	KrakenDieSequencePlayer->Play();
+	KrakenDieSequencePlayer->OnFinished.AddDynamic(this, &AKraken::LoadEndLevel);
 
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 	if (AnimInstance)
 	{
 		AnimInstance->Montage_Play(DieMontage, 1.0f);
 	}
+}
+
+void AKraken::LoadEndLevel()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("Cinematic_End"));
 }
 
 void AKraken::Turn()
