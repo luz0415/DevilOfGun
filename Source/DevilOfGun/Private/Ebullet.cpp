@@ -44,7 +44,7 @@ void AEbullet::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPri
 	AaPlayer* aplayer = Cast<AaPlayer>(OtherActor);
 	if (aplayer != nullptr)
 	{
-		aplayer->TakeDamage(5);
+		aplayer->TakeDamage(10);
 	}
 
 	this->Destroy();

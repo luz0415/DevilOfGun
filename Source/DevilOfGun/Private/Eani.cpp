@@ -15,7 +15,7 @@ void UEani::OnAttackPlay()
 	auto actor = GetWorld()->GetFirstPlayerController()->GetPawn();
 	target = Cast<AaPlayer>(actor);
 	
-	target->TakeDamage(5);
+	target->TakeDamage(20);
 	//여기 player 데미지 감소 함수
 }
 

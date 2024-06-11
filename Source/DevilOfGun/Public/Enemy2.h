@@ -28,7 +28,7 @@ public:
 	class USphereComponent* sphereComp;
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* meshComp;
-	
+	UPROPERTY(EditAnywhere)
 	float hp = 10;
 	UPROPERTY(EditAnywhere)
 	int e2type = 0;
@@ -40,7 +40,7 @@ public:
 	UPROPERTY(EditAnywhere) //움직임 지속시간 조절
 	float dt[2] = { 1,1 };
 	float timer = 0;
-
+	float timer2 = 0;
 	virtual void TakeDamage(float damage) override;
 
 	UPROPERTY(EditAnywhere)

@@ -37,30 +37,34 @@ void AEnemy2::Tick(float DeltaTime)
 
 	FVector dir = FVector(0, h, v);;
 
-	if (e2type == 0) {
+	
+	auto actor = GetWorld()->GetFirstPlayerController()->GetPawn();
+	target = Cast<AaPlayer>(actor);
+	FVector Dir = (target->GetActorLocation() - GetActorLocation()).GetSafeNormal();
+	SetActorRotation(Dir.Rotation());
+
+	if (e2type == 1) {
 		int d = int(timer);
 		d %= 4;
-		timer += dt[d%2] * DeltaTime;;
-		h = dx[d];
-		v = dy[d];
-		dir = FVector(0, h, v);
-	}
-	else if (e2type == 1) {
-		int d = int(timer);
-		d %= 4;
-		timer += dt[d % 2] * DeltaTime;;
+		timer += dt[d % 2] * DeltaTime;
 		h = dx[d];
 		v = dy[d];
 		dir = FVector(h, 0, v);
+		bool attackRange = (target->GetActorLocation() - GetActorLocation()).Size() < 800;
+
+		timer2+= DeltaTime;
+		if (timer2 >= 1 && attackRange) {
+			timer2 = 0;
+
+			AEbullet* ebullet = GetWorld()->SpawnActor<AEbullet>(bulletFactory, GetActorLocation(), GetActorRotation());
+		}
 	}
 	else if (e2type == 2) {
-		timer += 1 * DeltaTime;
-		auto actor = GetWorld()->GetFirstPlayerController()->GetPawn();
-		target = Cast<AaPlayer>(actor);
-		FVector Dir = (target->GetActorLocation()- GetActorLocation()).GetSafeNormal();
-		SetActorRotation(Dir.Rotation());
 
-		if (timer >= 1) {
+		timer += 1 * DeltaTime;
+		bool attackRange = (target->GetActorLocation() - GetActorLocation()).Size() < 1000;
+
+		if (timer >= 1&& attackRange) {
 			timer = 0;
 
 			AEbullet* ebullet = GetWorld()->SpawnActor<AEbullet>(bulletFactory, GetActorLocation(), GetActorRotation());
