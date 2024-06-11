@@ -14,6 +14,8 @@ void UDialogueWidget::NativeConstruct()
 	dialogueIndex = -1;
 	dialogueText->Text = FText::FromString("");
 	nextButton->OnClicked.AddDynamic(this, &UDialogueWidget::CompleteOrSkipDialogue);
+
+	GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 }
 
 void UDialogueWidget::AddDialogue(const FString& dialogue, int32 startFrame)
