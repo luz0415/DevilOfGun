@@ -86,7 +86,8 @@ private:
 	void APlayerFireEnd();
 	void AddbPlayerRollInput(float Val);
 	void AddbPlayerYawInput(float Val);
-	void Fire_A();
+	void isFire_A();
+	void stopFire_A();
 	void ResetbPlayerAttacked();
 
 // IDamagable Interface

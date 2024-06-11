@@ -64,7 +64,7 @@ void AbPlayer::Delay()
 
 void AbPlayer::Fire()
 {
-	if (ProjectileClass && Ammo != 0 && !FireDelay)
+	if (ProjectileClass && !FireDelay && isFiring)
 	{
 		FireDelay = true;
 
@@ -92,8 +92,7 @@ void AbPlayer::Fire()
 				Projectile->FireInDirection(LaunchDirection);
 			}
 		}
-		//Ammo -= 1;
-		//GetWorld()->GetTimerManager().SetTimer(timer_fire, this, &AbPlayer::Fire, 0.1f, true);
+		GetWorld()->GetTimerManager().SetTimer(timer_fire, this, &AbPlayer::Fire, 0.1f, true);
 		GetWorld()->GetTimerManager().SetTimer(timer_delay, this, &AbPlayer::Delay, 0.3f, false);
 	}
 }
