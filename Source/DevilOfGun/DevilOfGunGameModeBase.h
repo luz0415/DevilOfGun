@@ -19,6 +19,9 @@ private:
 	int32 score = 0;
 	int32 playerMaxHp = 100;
 	float currentHp;
+	FString enemyCurrentName = "";
+	float enemyCurrentHp;
+	float enemyCurrentMaxHp;
 	class UmainWidget* mainUI;
 	class UdieWidget* dieUi;
 
@@ -51,4 +54,5 @@ public:
 	void SetPlayerHpBarControl(bool check);
 	void CloseWidget();
 	void SetCameraOne();
+	void EnemyAttacked(FString hitName, float enemyHp, float enemyMaxHp);
 };

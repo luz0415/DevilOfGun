@@ -19,6 +19,8 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
+	
+
 private:
 	class AActor* player;
 
@@ -42,6 +44,12 @@ protected:
 public:
 	virtual void TakeDamage(float damage) override;
 	void AttackHitCheck();
+
+	UPROPERTY(EditAnywhere)
+	FString name = "Kraken";
+
+	UPROPERTY(EditAnywhere)
+	float hp = 0;
 
 protected:
 	uint8 bIsDead : 1;

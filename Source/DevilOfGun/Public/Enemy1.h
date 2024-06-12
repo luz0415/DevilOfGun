@@ -35,7 +35,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	float hp = 5;
 	UPROPERTY(EditAnywhere)
-	FString name = "basic";
+	float maxHp = 5;
+	UPROPERTY(EditAnywhere)
+	FString name = "enemy1";
 
 	virtual void TakeDamage(float damage) override;
 };

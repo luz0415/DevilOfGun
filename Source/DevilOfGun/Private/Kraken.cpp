@@ -43,6 +43,7 @@ void AKraken::BeginPlay()
 void AKraken::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	hp = currentHP;
 	if(bIsDead) { return; }
 	if (!bIsAttackBegun) 
 	{

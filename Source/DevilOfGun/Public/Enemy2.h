@@ -31,7 +31,11 @@ public:
 	UPROPERTY(EditAnywhere)
 	float hp = 10;
 	UPROPERTY(EditAnywhere)
+	float maxHp = 10;
+	UPROPERTY(EditAnywhere)
 	int e2type = 0;
+	UPROPERTY(EditAnywhere)
+	FString name = "enemy2";
 	float moveSpeed = 300;
 
 	float h=0, v=0;

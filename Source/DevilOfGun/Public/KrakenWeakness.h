@@ -17,6 +17,9 @@ class DEVILOFGUN_API UKrakenWeakness : public UStaticMeshComponent, public IIDam
 public:
 	UKrakenWeakness();
 	virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnywhere)
+	FString name = "KrakenWeakness";
 private:
 	UPROPERTY(EditAnywhere)
 	float maxHP = 3;

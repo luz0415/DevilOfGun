@@ -71,6 +71,9 @@ void ADevilOfGunGameModeBase::PrintMainUi() {
         mainUI->playerHpBar->SetPercent(((float)playerHp / (float)playerMaxHp));
         mainUI->playerHpText->SetText(FText::AsNumber(playerHp));
         mainUI->scoreText->SetText(FText::AsNumber(score));
+
+        mainUI->EnemyProgressBar->SetPercent((float)(enemyCurrentHp) / (float)(enemyCurrentMaxHp));
+        mainUI->bossNameData->SetText(FText::FromString(enemyCurrentName));
     }
 }
 
@@ -104,4 +107,11 @@ void ADevilOfGunGameModeBase::CloseWidget()
 void ADevilOfGunGameModeBase::SetCameraOne()
 {
     UGameplayStatics::RemovePlayer(bPlayerController, false);
+}
+
+void ADevilOfGunGameModeBase::EnemyAttacked(FString hitName, float enemyHp, float enemyMaxHp) {
+    enemyCurrentHp = enemyHp;
+    enemyCurrentName = hitName;
+    enemyCurrentMaxHp = enemyMaxHp;
+    PrintMainUi();
 }
